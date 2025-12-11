@@ -5,6 +5,7 @@ import { ServiceOrderModule } from '../service-order/service-order.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServiceOrder } from '../service-order/entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
+import { Technician } from '../technician/entities/technician.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { TechnicianModule } from '../technician/technician.module';
       username: 'root',
       password: 'root',
       database: 'db_neogen_business_suite',
-      entities: [ServiceOrder,],
+      entities: [ServiceOrder, Technician],
       synchronize: true,
     }),
     ServiceOrderModule,

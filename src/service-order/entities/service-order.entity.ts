@@ -1,5 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Technician } from "../../technician/entities/technician.entity";
 
 @Entity({name: "tb_service_order"})
 export class ServiceOrder {
@@ -14,6 +15,10 @@ export class ServiceOrder {
     @Column({type: "date"})
     deadline: Date;
 
+    @IsNotEmpty()
+    @Column({length:20, nullable: false})
+    status: 'confirmed' | 'acquiring_parts' | 'ongoing' | 'finished';
+
     @CreateDateColumn({name: "entry_date"})
     entryDate: Date;
     
@@ -25,6 +30,9 @@ export class ServiceOrder {
 
     @Column({name: "closure_notes", length: 1000, nullable: true})
     closureNotes: string;
+
+    @ManyToOne(() => Technician, (technician) => technician.serviceOrders, {onDelete: 'CASCADE'})
+    technician: Technician;
 
     /*
         Campos relacionais:

@@ -3,12 +3,12 @@ import { ServiceOrder } from './entities/service-order.entity';
 import { ServiceOrderService } from './service-order.service';
 import { DeleteResult } from 'typeorm';
 
-@Controller('ordem-servico')
+@Controller('/service-order')
 export class ServiceOrderController {
     
     constructor(private readonly serviceOrderService: ServiceOrderService){}
 
-    @Get()
+    @Get('/all')
     @HttpCode(HttpStatus.OK)
     findAll(): Promise<ServiceOrder[]> {
         return this.serviceOrderService.findAll();
@@ -20,25 +20,25 @@ export class ServiceOrderController {
         return this.serviceOrderService.findAllByDate(date);
     }
 
-    @Get(':id')
+    @Get('/id/:id')
     @HttpCode(HttpStatus.OK)
     findByID(@Param('id', ParseIntPipe) id: number) {
         return this.serviceOrderService.findByID(id);
     }
 
-    @Post()
+    @Post('/create')
     @HttpCode(HttpStatus.CREATED)
     create(@Body() serviceOrder: ServiceOrder): Promise<ServiceOrder> {
         return this.serviceOrderService.create(serviceOrder);
     }
 
-    @Put()
+    @Put('/update')
     @HttpCode(HttpStatus.OK)
     update(@Body() serviceOrder: ServiceOrder): Promise<ServiceOrder> {
         return this.serviceOrderService.update(serviceOrder)
     }
 
-    @Delete(':id')
+    @Delete('/delete/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
     delete(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
         return this.serviceOrderService.delete(id)
