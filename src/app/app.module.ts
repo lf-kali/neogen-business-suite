@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServiceOrder } from '../service-order/entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 import { Technician } from '../technician/entities/technician.entity';
+import { AuthModule } from '../auth/auth.module';
+import { PublicDataModule } from '../public-data/public-data.module';
 
 @Module({
   imports: [
@@ -20,7 +22,9 @@ import { Technician } from '../technician/entities/technician.entity';
       synchronize: true,
     }),
     ServiceOrderModule,
-    TechnicianModule
+    TechnicianModule,
+    AuthModule,
+    PublicDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],
