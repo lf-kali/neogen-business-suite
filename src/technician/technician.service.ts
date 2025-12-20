@@ -76,6 +76,7 @@ export class TechnicianService {
       technician.password,
     );
     await this.technicianRepository.save(technician);
+
   }
 
   async update(technician: Technician): Promise<void> {
