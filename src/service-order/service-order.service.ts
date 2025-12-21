@@ -4,7 +4,6 @@ import { ServiceOrder } from './entities/service-order.entity';
 import { Between, Repository } from 'typeorm';
 import { DeleteResult } from 'typeorm/browser';
 import { TechnicianService } from '../technician/technician.service';
-import { PublicDataService } from '../public-data/public-data.service';
 
 @Injectable()
 export class ServiceOrderService {
@@ -12,14 +11,10 @@ export class ServiceOrderService {
     @InjectRepository(ServiceOrder)
     private serviceOrderRepository: Repository<ServiceOrder>,
     private technicianService: TechnicianService,
-    private publicDataService: PublicDataService,
   ) {}
 
   async findAll(): Promise<ServiceOrder[]> {
     return await this.serviceOrderRepository.find({
-      select: {
-        technician: this.publicDataService.selectPublicData(),
-      },
       relations: {
         technician: true,
       },
@@ -34,9 +29,6 @@ export class ServiceOrderService {
           new Date(`${date}T23:59:59.999Z`),
         ),
       },
-      select: {
-        technician: this.publicDataService.selectPublicData(),
-      },
       relations: {
         technician: true,
       },
@@ -48,9 +40,6 @@ export class ServiceOrderService {
     const serviceOrder = await this.serviceOrderRepository.findOne({
       where: {
         id,
-      },
-      select: {
-        technician: this.publicDataService.selectPublicData(),
       },
       relations: {
         technician: true,

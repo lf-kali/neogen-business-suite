@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Technician } from './entities/technician.entity';
 import { ILike, Repository } from 'typeorm';
 import { Bcrypt } from '../auth/bcrypt/bcrypt';
-import { PublicDataService } from '../public-data/public-data.service';
+import { CreateTechnicianDto } from './dto/create-technician.dto';
+import { UpdateTechnicianDto } from './dto/update-technician.dto';
 
 @Injectable()
 export class TechnicianService {
@@ -11,7 +12,6 @@ export class TechnicianService {
     @InjectRepository(Technician)
     private technicianRepository: Repository<Technician>,
     private bcrypt: Bcrypt,
-    private publicDataService: PublicDataService,
   ) {}
 
   async findByEmail(email: string): Promise<Technician | null> {
@@ -24,7 +24,6 @@ export class TechnicianService {
 
   async findAll(): Promise<Technician[]> {
     return await this.technicianRepository.find({
-      select: this.publicDataService.selectPublicData(),
       relations: {
         serviceOrders: true,
       },
@@ -36,7 +35,6 @@ export class TechnicianService {
       where: {
         id,
       },
-      select: this.publicDataService.selectPublicData(),
       relations: {
         serviceOrders: true,
       },
@@ -53,7 +51,6 @@ export class TechnicianService {
 
   async findAllByName(name: string): Promise<Technician[]> {
     return await this.technicianRepository.find({
-      select: this.publicDataService.selectPublicData(),
       where: {
         name: ILike(`%${name}%`),
       },
@@ -63,36 +60,44 @@ export class TechnicianService {
     });
   }
 
-  async create(technician: Technician): Promise<void> {
-    const technicianSearch = await this.findByEmail(technician.email);
+  async create(dto: CreateTechnicianDto): Promise<Technician> {
+    const technicianSearch = await this.findByEmail(dto.email);
 
     if (technicianSearch)
       throw new HttpException(
-        `Técnico com email "${technician.email}" já existe!`,
+        `Técnico com email "${dto.email}" já existe!`,
         HttpStatus.BAD_REQUEST,
       );
 
-    technician.password = await this.bcrypt.encryptPassword(
-      technician.password,
+    dto.password = await this.bcrypt.encryptPassword(
+      dto.password,
     );
-    await this.technicianRepository.save(technician);
+    const technician = this.technicianRepository.create(dto)
+    return await this.technicianRepository.save(technician);
 
   }
 
-  async update(technician: Technician): Promise<void> {
-    await this.findByID(technician.id);
-    const technicianSearch = await this.findByEmail(technician.email);
+  async update(id: number, dto: UpdateTechnicianDto): Promise<Technician> {
+    const technician = await this.findByID(id);
 
-    if (technicianSearch && technicianSearch.id !== technician.id)
-      throw new HttpException(
-        `Técnico com email "${technician.email}" já existe!`,
-        HttpStatus.BAD_REQUEST,
+    if (dto.email) {
+      const technicianSearch = await this.findByEmail(dto.email);
+
+      if (technicianSearch && technicianSearch.id !== id)
+        throw new HttpException(
+          `Técnico com email "${dto.email}" já existe!`,
+          HttpStatus.BAD_REQUEST,
+        );
+    }
+
+    if (dto.password) {
+      dto.password = await this.bcrypt.encryptPassword(
+        dto.password,
       );
+    }
 
-    technician.password = await this.bcrypt.encryptPassword(
-      technician.password,
-    );
+    Object.assign(technician, dto);
 
-    await this.technicianRepository.save(technician);
+    return await this.technicianRepository.save(technician);
   }
 }

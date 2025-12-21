@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -7,7 +7,12 @@ async function bootstrap() {
 
   process.env.TZ = '-03:00';
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }));
+
+  app.useGlobalInterceptors(app.get(Reflector))
 
   app.enableCors();
 

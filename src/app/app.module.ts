@@ -7,7 +7,6 @@ import { ServiceOrder } from '../service-order/entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 import { Technician } from '../technician/entities/technician.entity';
 import { AuthModule } from '../auth/auth.module';
-import { PublicDataModule } from '../public-data/public-data.module';
 
 @Module({
   imports: [
@@ -24,7 +23,6 @@ import { PublicDataModule } from '../public-data/public-data.module';
     ServiceOrderModule,
     TechnicianModule,
     AuthModule,
-    PublicDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],
