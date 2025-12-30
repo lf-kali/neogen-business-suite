@@ -6,10 +6,7 @@ import { Technician } from './entities/technician.entity';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Technician]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Technician]), AuthModule],
   providers: [TechnicianService],
   controllers: [TechnicianController],
   exports: [TechnicianService],

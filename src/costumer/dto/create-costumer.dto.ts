@@ -1,24 +1,18 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsPhoneNumber,
-  IsUrl,
-  Length,
   MaxLength,
-  MinLength,
 } from 'class-validator';
 
-export class CreateTechnicianDto {
+export class CreateCostumerDTO {
   @IsNotEmpty()
   name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
   email: string;
-
-  @IsNotEmpty()
-  @MinLength(8)
-  password: string;
 
   @IsNotEmpty()
   @MaxLength(11)
@@ -29,6 +23,15 @@ export class CreateTechnicianDto {
   @MaxLength(255)
   address: string;
 
-  @IsUrl()
-  profilePicture: string;
+  @IsNotEmpty()
+  @MaxLength(8)
+  cep: string;
+
+  @IsNotEmpty()
+  @MaxLength(11)
+  cpf: string;
+
+  @IsNotEmpty()
+  @MaxLength(14)
+  cnpj: string;
 }

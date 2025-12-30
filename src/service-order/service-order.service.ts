@@ -4,6 +4,9 @@ import { ServiceOrder } from './entities/service-order.entity';
 import { Between, Repository } from 'typeorm';
 import { DeleteResult } from 'typeorm/browser';
 import { TechnicianService } from '../technician/technician.service';
+import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
+import { CostumerService } from '../costumer/costumer.service';
+import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
 
 @Injectable()
 export class ServiceOrderService {
@@ -11,12 +14,14 @@ export class ServiceOrderService {
     @InjectRepository(ServiceOrder)
     private serviceOrderRepository: Repository<ServiceOrder>,
     private technicianService: TechnicianService,
+    private costumerService: CostumerService,
   ) {}
 
   async findAll(): Promise<ServiceOrder[]> {
     return await this.serviceOrderRepository.find({
       relations: {
         technician: true,
+        costumer: true,
       },
     });
   }
@@ -31,6 +36,7 @@ export class ServiceOrderService {
       },
       relations: {
         technician: true,
+        costumer: true,
       },
     });
     return dateSearch;
@@ -43,6 +49,7 @@ export class ServiceOrderService {
       },
       relations: {
         technician: true,
+        costumer: true,
       },
     });
     if (!serviceOrder) {
@@ -54,19 +61,38 @@ export class ServiceOrderService {
     return serviceOrder;
   }
 
-  async create(serviceOrder: ServiceOrder): Promise<ServiceOrder> {
-    if (serviceOrder.technician)
-      await this.technicianService.findByID(serviceOrder.technician.id);
+  async create(dto: CreateServiceOrderDTO): Promise<ServiceOrder> {
+    const technician = await this.technicianService.findByID(dto.technicianId);
+    const costumer = await this.costumerService.findByID(dto.costumerId);
+
+    const serviceOrder = this.serviceOrderRepository.create(dto);
+    serviceOrder.technician = technician;
+    serviceOrder.costumer = costumer;
 
     return await this.serviceOrderRepository.save(serviceOrder);
   }
 
-  async update(serviceOrder: ServiceOrder): Promise<ServiceOrder> {
-    await this.findByID(serviceOrder.id);
+  async update(id: number, dto: UpdateServiceOrderDto): Promise<ServiceOrder> {
+    const serviceOrder = await this.findByID(id);
 
-    if (serviceOrder.technician)
-      await this.technicianService.findByID(serviceOrder.technician.id);
+    if (dto.technicianId) {
+      const technician = await this.technicianService.findByID(
+        dto.technicianId,
+      );
+      serviceOrder.technician = technician;
+    }
 
+    if (dto.costumerId) {
+      const costumer = await this.costumerService.findByID(dto.costumerId);
+      serviceOrder.costumer = costumer;
+    }
+
+    const noRelationDto: Omit<
+      UpdateServiceOrderDto,
+      'technicianId' | 'costumerId'
+    > = dto;
+
+    Object.assign(serviceOrder, noRelationDto);
     return await this.serviceOrderRepository.save(serviceOrder);
   }
 

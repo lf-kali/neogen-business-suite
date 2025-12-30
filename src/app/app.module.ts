@@ -7,6 +7,8 @@ import { ServiceOrder } from '../service-order/entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 import { Technician } from '../technician/entities/technician.entity';
 import { AuthModule } from '../auth/auth.module';
+import { Costumer } from '../costumer/entities/costumer.entity';
+import { CostumerModule } from '../costumer/costumer.module';
 
 @Module({
   imports: [
@@ -17,12 +19,13 @@ import { AuthModule } from '../auth/auth.module';
       username: 'root',
       password: 'root',
       database: 'db_neogen_business_suite',
-      entities: [ServiceOrder, Technician],
+      entities: [ServiceOrder, Technician, Costumer],
       synchronize: true,
     }),
     ServiceOrderModule,
     TechnicianModule,
     AuthModule,
+    CostumerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

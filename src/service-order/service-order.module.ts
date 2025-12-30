@@ -6,10 +6,7 @@ import { ServiceOrder } from './entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ServiceOrder]),
-    TechnicianModule,
-  ],
+  imports: [TypeOrmModule.forFeature([ServiceOrder]), TechnicianModule],
   providers: [ServiceOrderService],
   controllers: [ServiceOrderController],
 })

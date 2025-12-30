@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -7,16 +8,20 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ServiceOrder } from './entities/service-order.entity';
 import { ServiceOrderService } from './service-order.service';
 import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
+import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
 
 @UseGuards(JwtAuthGuard)
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('/service-order')
 export class ServiceOrderController {
   constructor(private readonly serviceOrderService: ServiceOrderService) {}
@@ -41,14 +46,17 @@ export class ServiceOrderController {
 
   @Post('/create')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() serviceOrder: ServiceOrder): Promise<ServiceOrder> {
-    return this.serviceOrderService.create(serviceOrder);
+  create(@Body() dto: CreateServiceOrderDTO): Promise<ServiceOrder> {
+    return this.serviceOrderService.create(dto);
   }
 
-  @Put('/update')
+  @Patch('/update/:id')
   @HttpCode(HttpStatus.OK)
-  update(@Body() serviceOrder: ServiceOrder): Promise<ServiceOrder> {
-    return this.serviceOrderService.update(serviceOrder);
+  update(
+    @Param('id') id: number,
+    @Body() dto: UpdateServiceOrderDto,
+  ): Promise<ServiceOrder> {
+    return this.serviceOrderService.update(id, dto);
   }
 
   @Delete('/delete/:id')

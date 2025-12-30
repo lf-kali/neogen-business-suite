@@ -19,6 +19,7 @@ export class TechnicianService {
       where: {
         email: email,
       },
+      relations: { serviceOrders: true },
     });
   }
 
@@ -69,12 +70,9 @@ export class TechnicianService {
         HttpStatus.BAD_REQUEST,
       );
 
-    dto.password = await this.bcrypt.encryptPassword(
-      dto.password,
-    );
-    const technician = this.technicianRepository.create(dto)
+    dto.password = await this.bcrypt.encryptPassword(dto.password);
+    const technician = this.technicianRepository.create(dto);
     return await this.technicianRepository.save(technician);
-
   }
 
   async update(id: number, dto: UpdateTechnicianDto): Promise<Technician> {
@@ -91,9 +89,7 @@ export class TechnicianService {
     }
 
     if (dto.password) {
-      dto.password = await this.bcrypt.encryptPassword(
-        dto.password,
-      );
+      dto.password = await this.bcrypt.encryptPassword(dto.password);
     }
 
     Object.assign(technician, dto);

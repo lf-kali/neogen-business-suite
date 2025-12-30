@@ -7,12 +7,14 @@ async function bootstrap() {
 
   process.env.TZ = '-03:00';
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
-  app.useGlobalInterceptors(app.get(Reflector))
+  app.useGlobalInterceptors(app.get(Reflector));
 
   app.enableCors();
 
