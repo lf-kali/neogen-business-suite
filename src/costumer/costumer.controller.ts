@@ -15,8 +15,12 @@ import { CostumerService } from './costumer.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CreateCostumerDTO } from './dto/create-costumer.dto';
 import { UpdateCostumerDTO } from './dto/update-costumer.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('Costumer')
+@ApiBearerAuth()
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('/costumers')
 export class CostumerController {

@@ -1,5 +1,4 @@
 import { IsDateString, IsNotEmpty, IsOptional } from 'class-validator';
-import { Technician } from '../../technician/entities/technician.entity';
 
 export class CreateServiceOrderDTO {
   @IsNotEmpty()

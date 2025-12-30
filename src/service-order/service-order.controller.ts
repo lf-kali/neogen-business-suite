@@ -19,8 +19,12 @@ import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
 import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Service Orders')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('/service-order')
 export class ServiceOrderController {
