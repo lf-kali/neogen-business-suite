@@ -75,6 +75,6 @@ export class ServiceOrder {
 
         initialDiagnosis: InitialDiagnosis;
 
-        services: Service[]
+        services: Service[];
     */
 }

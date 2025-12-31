@@ -44,7 +44,7 @@ export class Costumer {
 
   @ApiProperty()
   @Exclude()
-  @Column({ length: 14, nullable: false })
+  @Column({ length: 14, nullable: true, default: null })
   cnpj: string;
 
   @ApiProperty()
