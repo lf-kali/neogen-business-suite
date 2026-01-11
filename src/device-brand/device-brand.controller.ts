@@ -2,9 +2,11 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UseGuards,
   UseInterceptors,
@@ -40,7 +42,7 @@ export class DeviceBrandController {
     return this.deviceBrandService.create(dto);
   }
 
-  @Post('/update/:id')
+  @Patch('/update/:id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDeviceBrandDTO,
@@ -48,7 +50,7 @@ export class DeviceBrandController {
     return this.deviceBrandService.update(id, dto);
   }
 
-  @Post('/delete/:id')
+  @Delete('/delete/:id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.deviceBrandService.delete(id);
   }

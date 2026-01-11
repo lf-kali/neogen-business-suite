@@ -6,7 +6,7 @@ export class InitialDiagnosis {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'jsonb', nullable: false})
+    @Column({type: 'json', nullable: false})
     handedAccessories: {
         charger?: boolean,
         cable?: boolean,

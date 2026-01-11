@@ -19,6 +19,6 @@ export class CreateDeviceDTO {
   modelId: number;
 
   @IsNumber()
-  @IsOptional()
-  serviceOrderId?: number;
+  @IsNotEmpty()
+  serviceOrderId: number;
 }

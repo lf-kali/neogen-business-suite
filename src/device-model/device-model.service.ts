@@ -5,12 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDeviceModelDTO } from './dto/create-device-model.dto';
 import { UpdateDeviceModelDTO } from './dto/update-device-model.dto';
 import { DeleteResult } from 'typeorm/browser';
+import { DeviceBrandService } from '../device-brand/device-brand.service';
 
 @Injectable()
 export class DeviceModelService {
   constructor(
     @InjectRepository(DeviceModel)
     private deviceModelRepository: Repository<DeviceModel>,
+    private deviceBrandService: DeviceBrandService,
   ) {}
 
   async findAll(): Promise<DeviceModel[]> {
@@ -38,6 +40,9 @@ export class DeviceModelService {
 
   async create(dto: CreateDeviceModelDTO): Promise<DeviceModel> {
     const deviceModel = this.deviceModelRepository.create(dto);
+    const brand = await this.deviceBrandService.findByID(dto.brandId);
+
+    deviceModel.brand = brand;
 
     return await this.deviceModelRepository.save(deviceModel);
   }
@@ -45,7 +50,14 @@ export class DeviceModelService {
   async update(id: number, dto: UpdateDeviceModelDTO): Promise<DeviceModel> {
     const deviceModel = await this.findByID(id);
 
-    Object.assign(deviceModel, dto);
+    if (dto.brandId) {
+      const brand = await this.deviceBrandService.findByID(dto.brandId);
+      deviceModel.brand = brand;
+    }
+
+    const noRelationDto: Omit<UpdateDeviceModelDTO, 'brandId'> = dto;
+    
+    Object.assign(deviceModel, noRelationDto);
     return await this.deviceModelRepository.save(deviceModel);
   }
 

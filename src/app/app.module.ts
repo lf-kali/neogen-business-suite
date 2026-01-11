@@ -12,6 +12,7 @@ import { CostumerModule } from '../costumer/costumer.module';
 import { Device } from '../device/entities/device.entity';
 import { DeviceBrand } from '../device-brand/entities/device-brand.entity';
 import { DeviceModel } from '../device-model/entities/device-model.entity';
+import { InitialDiagnosis } from '../device/entities/initial-checklist';
 import { DeviceModule } from '../device/device.module';
 import { DeviceBrandModule } from '../device-brand/device-brand.module';
 import { DeviceModelModule } from '../device-model/device-model.module';
@@ -25,7 +26,7 @@ import { DeviceModelModule } from '../device-model/device-model.module';
       username: 'root',
       password: 'root',
       database: 'db_neogen_business_suite',
-      entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel],
+      entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel, InitialDiagnosis],
       synchronize: true,
     }),
     ServiceOrderModule,
