@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Technician } from '../../technician/entities/technician.entity';
 import { Costumer } from '../../costumer/entities/costumer.entity';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { Device } from '../../device/entities/device.entity';
 
 @Exclude()
 @Entity({ name: 'tb_service_order' })
@@ -18,11 +20,6 @@ export class ServiceOrder {
   @Expose()
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ApiProperty()
-  @Expose()
-  @Column({ name: 'problem_description', length: 255, nullable: false })
-  problemDescription: string;
 
   @ApiProperty()
   @Expose()
@@ -68,12 +65,13 @@ export class ServiceOrder {
   })
   costumer: Costumer;
 
+  @ApiProperty()
+  @Expose()
+  @OneToMany(() => Device, (device) => device.serviceOrder)
+  devices: Device[];
+
   /*
         Campos relacionais:
-
-        device: Device;
-
-        initialDiagnosis: InitialDiagnosis;
 
         services: Service[];
     */
