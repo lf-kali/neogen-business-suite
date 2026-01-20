@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DeviceBrand } from "../../device-brand/entities/device-brand.entity";
 import { DeviceModel } from "../../device-model/entities/device-model.entity";
-import { InitialDiagnosis } from "./initial-checklist";
+import { InitialDiagnosis } from "./initial-diagnosis";
 import { ServiceOrder } from "../../service-order/entities/service-order.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";

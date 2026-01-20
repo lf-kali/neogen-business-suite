@@ -8,10 +8,10 @@ export class InitialDiagnosis {
 
     @Column({type: 'json', nullable: false})
     handedAccessories: {
-        charger?: boolean,
-        cable?: boolean,
-        case?: boolean,
-        storageDevice?: 'sd_card' | 'flash_drive' | 'external_hdd' | 'external_ssd' | string,
+        charger: boolean,
+        cable: boolean,
+        case: boolean,
+        storageDevice: 'sd_card' | 'flash_drive' | 'external_hdd' | 'external_ssd' | null,
     }
 
     @Column({length: 255, nullable: false})
@@ -35,7 +35,7 @@ export class InitialDiagnosis {
     @Column({type: 'enum', enum: ['ok', 'damaged', 'not_working']})
     frontalCamera: 'ok' | 'damaged' | 'not_working';
 
-    @Column({type: 'enum', enum: ['ok', 'pantom_touch', 'not_working']})
+    @Column({type: 'enum', enum: ['ok', 'phantom_touch', 'not_working']})
     touch: 'ok' | 'phantom_touch' | 'not_working';
 
     @OneToOne(() => Device, (device) => device.initialDiagnosis, {onDelete: 'CASCADE'})

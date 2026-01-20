@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsEnum, IsNumber, Length, IsOptional } from 'class-validator';
+import { InitialDiagnosis } from '../entities/initial-diagnosis';
 
 export class CreateDeviceDTO {
   @ApiProperty()
@@ -23,6 +24,10 @@ export class CreateDeviceDTO {
   @IsNotEmpty()
   modelId: number;
 
+  @ApiProperty()
+  @IsNotEmpty()
+  initialDiagnosis: InitialDiagnosis;
+  
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
