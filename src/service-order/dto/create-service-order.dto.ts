@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
 import { CreateDeviceDTO } from '../../device/dto/create-device.dto';
+import { Device } from '../../device/entities/device.entity';
 
 export class CreateServiceOrderDTO {
   
@@ -26,5 +27,5 @@ export class CreateServiceOrderDTO {
 
   @ApiProperty()
   @ValidateNested()
-  devices: CreateDeviceDTO;
+  devices: Device[];
 }
