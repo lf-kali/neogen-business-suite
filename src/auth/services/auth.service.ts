@@ -38,10 +38,10 @@ export class AuthService {
   }
 
   async login(usuarioLogin: UsuarioLogin) {
-    const payload = { sub: usuarioLogin.usuario };
+    const payload = { sub: usuarioLogin.email };
 
     const userSearch = await this.technicianService.findByEmail(
-      usuarioLogin.usuario,
+      usuarioLogin.email,
     );
 
     return {

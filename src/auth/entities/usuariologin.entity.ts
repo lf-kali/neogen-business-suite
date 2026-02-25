@@ -5,10 +5,10 @@ export class UsuarioLogin {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  public usuario: string;
+  public email: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  public senha: string;
+  public password: string;
 }

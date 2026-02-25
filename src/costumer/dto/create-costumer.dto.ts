@@ -15,11 +15,10 @@ export class CreateCostumerDTO {
   @ApiProperty()
   @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @MaxLength(11)
   @IsPhoneNumber('BR')
   phone: string;
 

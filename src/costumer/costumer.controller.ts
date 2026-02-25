@@ -3,6 +3,8 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -27,6 +29,7 @@ export class CostumerController {
   constructor(private readonly costumerService: CostumerService) {}
 
   @Get('/all')
+  @HttpCode(HttpStatus.OK)
   findAll(): Promise<Costumer[]> {
     return this.costumerService.findAll();
   }
