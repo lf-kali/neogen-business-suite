@@ -16,18 +16,15 @@ import { InitialDiagnosis } from '../device/entities/initial-diagnosis';
 import { DeviceModule } from '../device/device.module';
 import { DeviceBrandModule } from '../device-brand/device-brand.module';
 import { DeviceModelModule } from '../device-model/device-model.module';
+import { ConfigModule } from '@nestjs/config';
+import { ProdService } from '../data/services/prod.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'db_neogen_business_suite',
-      entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel, InitialDiagnosis],
-      synchronize: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      useClass: ProdService,
+      imports: [ConfigModule],
     }),
     ServiceOrderModule,
     TechnicianModule,

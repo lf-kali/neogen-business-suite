@@ -37,6 +37,11 @@ export class DeviceBrandController {
     return this.deviceBrandService.findByID(id);
   }
 
+  @Get('/name/:name')
+  findByName(@Param('name') name: string): Promise<DeviceBrand[]>{
+    return this.deviceBrandService.findByName(name)
+  }
+
   @Post('/new')
   create(@Body() dto: CreateDeviceBrandDTO): Promise<DeviceBrand> {
     return this.deviceBrandService.create(dto);

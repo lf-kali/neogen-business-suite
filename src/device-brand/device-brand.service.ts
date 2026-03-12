@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DeviceBrand } from './entities/device-brand.entity';
-import { Repository } from 'typeorm';
+import { ILike, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDeviceBrandDTO } from './dto/create-device-brand.dto';
 import { UpdateDeviceBrandDTO } from './dto/update-device-brand.dto';
@@ -31,6 +31,26 @@ export class DeviceBrandService {
         `Device Brand with id "${id}" not found`,
         HttpStatus.NOT_FOUND,
       );
+    }
+
+    return deviceBrandSearch;
+  }
+
+  async findByName(name: string): Promise<DeviceBrand[]> {
+    const deviceBrandSearch = await this.deviceBrandRepository.find({
+      where: {
+        name: Like(name),
+      },
+      relations:{
+        devices: true,
+        models: true,
+      }
+    });
+    if (!deviceBrandSearch) {
+      throw new HttpException(
+        `Device Brand with name "${name}" not found`,
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     return deviceBrandSearch;

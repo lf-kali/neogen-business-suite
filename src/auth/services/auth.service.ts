@@ -49,6 +49,7 @@ export class AuthService {
       name: userSearch?.name,
       email: userSearch?.email,
       profilePicture: userSearch?.profilePicture,
+      serviceOrders: userSearch?.serviceOrders,
       token: `Bearer ${this.jwtService.sign(payload)}`,
     };
   }

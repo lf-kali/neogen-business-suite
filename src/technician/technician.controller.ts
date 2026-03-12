@@ -33,9 +33,9 @@ export class TechnicianController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Get('/id/:id')
-  findByID(@Param('id') id: number): Promise<Technician> {
-    return this.technicianService.findByID(id);
+  @Get('/email/:email')
+  findByEmail(@Param('email') email: string): Promise<Technician | null> {
+    return this.technicianService.findByEmail(email);
   }
 
   @ApiBearerAuth()
