@@ -18,12 +18,13 @@ import { DeviceBrandModule } from '../device-brand/device-brand.module';
 import { DeviceModelModule } from '../device-model/device-model.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProdService } from '../data/services/prod.service';
+import { DevService } from '../data/services/dev.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      useClass: ProdService,
+      useClass: DevService,
       imports: [ConfigModule],
     }),
     ServiceOrderModule,
