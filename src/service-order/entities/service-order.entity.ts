@@ -33,7 +33,7 @@ export class ServiceOrder {
 
   @ApiProperty()
   @Expose()
-  @CreateDateColumn({ type: 'datetime', name: 'entry_date' })
+  @CreateDateColumn({ type: 'timestamptz', name: 'entry_date' })
   entryDate: Date;
 
   @ApiProperty()
