@@ -39,7 +39,7 @@ export class DeviceBrandService {
   async findByName(name: string): Promise<DeviceBrand[]> {
     const deviceBrandSearch = await this.deviceBrandRepository.find({
       where: {
-        name: Like(name),
+        name: ILike(name),
       },
       relations:{
         devices: true,
