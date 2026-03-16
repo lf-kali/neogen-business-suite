@@ -41,6 +41,7 @@ export class Technician {
   profilePicture: string;
 
   @ApiProperty()
+  @Expose()
   @OneToMany(() => ServiceOrder, (serviceOrder) => serviceOrder.technician)
   serviceOrders: ServiceOrder[];
 }
