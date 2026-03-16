@@ -9,6 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class Technician {
 
   @ApiProperty()
+  @Expose()
   @PrimaryGeneratedColumn()
   id: number;
 
