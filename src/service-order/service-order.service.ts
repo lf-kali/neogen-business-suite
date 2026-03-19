@@ -81,7 +81,7 @@ export class ServiceOrderService {
       await this.deviceService.update(id, {serviceOrderId: serviceOrder.id});
     }
 
-    return serviceOrder;
+    return this.findByID(serviceOrder.id);
   }
 
   async update(id: number, dto: UpdateServiceOrderDto): Promise<ServiceOrder> {
@@ -99,9 +99,15 @@ export class ServiceOrderService {
       serviceOrder.costumer = costumer;
     }
 
+    if (dto.deviceIDs) {
+      for (let id of dto.deviceIDs){
+        await this.deviceService.update(id, {serviceOrderId: serviceOrder.id})
+      }
+    }
+
     const noRelationDto: Omit<
       UpdateServiceOrderDto,
-      'technicianId' | 'costumerId'
+      'technicianId' | 'costumerId' | 'deviceIDs'
     > = dto;
 
     Object.assign(serviceOrder, noRelationDto);
