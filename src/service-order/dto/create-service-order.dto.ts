@@ -1,14 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
-import { CreateDeviceDTO } from '../../device/dto/create-device.dto';
-import { Device } from '../../device/entities/device.entity';
+import { Type } from 'class-transformer';
+import { IsArray, IsDateString, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
+
 
 export class CreateServiceOrderDTO {
-  
-  @ApiProperty()
-  @IsNotEmpty()
-  problemDescription: string;
-
   @ApiProperty()
   @IsDateString()
   deadline: Date;
@@ -26,6 +21,8 @@ export class CreateServiceOrderDTO {
   costumerId: number;
 
   @ApiProperty()
-  @ValidateNested()
-  devices: Device[];
+  @IsArray()
+  @IsInt({each:true})
+  @Type(() => Number)
+  deviceIDs: number[];
 }

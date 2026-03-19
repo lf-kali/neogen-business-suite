@@ -18,7 +18,7 @@ export class DevService implements TypeOrmOptionsFactory {
             username: 'root',
             password: 'root',
             database: 'db_neogen_business_suite',
-            entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel, InitialDiagnosis],
+            entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel],
             synchronize: true,
         }
     }

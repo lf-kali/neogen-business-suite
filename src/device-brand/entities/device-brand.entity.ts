@@ -2,8 +2,9 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Device } from "../../device/entities/device.entity";
 import { DeviceModel } from "../../device-model/entities/device-model.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 
+@Exclude()
 @Entity({name: 'device_brands'})
 export class DeviceBrand {
     @ApiProperty()
