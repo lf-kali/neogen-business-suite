@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsEnum, IsNumber, Length, IsOptional } from 'class-validator';
 import { InitialDiagnosis } from '../entities/initial-diagnosis';
+import { HandedAccessories } from '../entities/handed-accessories';
 
 export class CreateDeviceDTO {
   @ApiProperty()
@@ -27,9 +28,13 @@ export class CreateDeviceDTO {
   @ApiProperty()
   @IsNotEmpty()
   initialDiagnosis: InitialDiagnosis;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  handedAccessories: HandedAccessories;
   
   @ApiProperty()
   @IsNumber()
-  @IsNotEmpty()
-  serviceOrderId: number;
+  @IsOptional()
+  serviceOrderId?: number;
 }

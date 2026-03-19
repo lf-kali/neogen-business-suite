@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Device } from './entities/device.entity';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { DeviceModelService } from '../device-model/device-model.service';
 import { DeviceBrand } from '../device-brand/entities/device-brand.entity';
 import { DeviceBrandService } from '../device-brand/device-brand.service';
 import { DeviceModel } from '../device-model/entities/device-model.entity';
+import { ServiceOrderService } from '../service-order/service-order.service';
 
 @Injectable()
 export class DeviceService {
@@ -17,20 +18,22 @@ export class DeviceService {
         private deviceRepository: Repository<Device>,
         private deviceBrandService: DeviceBrandService,
         private deviceModelService: DeviceModelService,
+        @Inject(forwardRef(() => ServiceOrderService))
+        private serviceOrderService: ServiceOrderService,
     ) {}
 
     async findAll(): Promise<Device[]> {
         return await this.deviceRepository.find({
-            relations: ['brand', 'model', 'initialDiagnosis', 'serviceOrder'],
+            relations: ['brand', 'model', 'serviceOrder'],
         });
     }
-
+    
     async findByID(id: number): Promise<Device> {
         const deviceSearch = await this.deviceRepository.findOne({
             where: {
                 id: id,
             },
-            relations: ['brand', 'model', 'initialDiagnosis', 'serviceOrder'],
+            relations: ['brand', 'model', 'serviceOrder'],
         });
         if (!deviceSearch) {
             throw new HttpException(
@@ -50,6 +53,11 @@ export class DeviceService {
         device.brand = brand;
         device.model = model;
 
+        if (dto.serviceOrderId) {
+            const serviceOrder = await this.serviceOrderService.findByID(dto.serviceOrderId);
+            device.serviceOrder = serviceOrder;
+        }
+
         return await this.deviceRepository.save(device);
     }
 
@@ -66,7 +74,12 @@ export class DeviceService {
             device.model = model;
         }
 
-        const noRelationDto: Omit<UpdateDeviceDTO, 'brandId' | 'modelId'> = dto;
+        if (dto.serviceOrderId) {
+            const serviceOrder = await this.serviceOrderService.findByID(dto.serviceOrderId);
+            device.serviceOrder = serviceOrder;
+        }
+
+        const noRelationDto: Omit<UpdateDeviceDTO, 'brandId' | 'modelId' | 'serviceOrderId'> = dto;
 
         Object.assign(device, noRelationDto);
         return await this.deviceRepository.save(device);

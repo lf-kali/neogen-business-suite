@@ -1,10 +1,11 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DeviceBrand } from "../../device-brand/entities/device-brand.entity";
 import { DeviceModel } from "../../device-model/entities/device-model.entity";
 import { InitialDiagnosis } from "./initial-diagnosis";
 import { ServiceOrder } from "../../service-order/entities/service-order.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
+import { HandedAccessories } from "./handed-accessories";
 
 @Entity({name: 'tb_devices'})
 export class Device {
@@ -25,6 +26,16 @@ export class Device {
 
     @ApiProperty()
     @Expose()
+    @Column({type: 'json', nullable: false})
+    initialDiagnosis: InitialDiagnosis;
+
+    @ApiProperty()
+    @Expose()
+    @Column({type: 'json', nullable: false})
+    handedAccessories: HandedAccessories;
+
+    @ApiProperty()
+    @Expose()
     @ManyToOne(() => DeviceBrand, (brand) => brand.devices, {onDelete: 'CASCADE'})
     brand: DeviceBrand;
 
@@ -35,12 +46,7 @@ export class Device {
 
     @ApiProperty()
     @Expose()
-    @OneToOne(() => InitialDiagnosis, (diag) => diag.device, {cascade: true})
-    initialDiagnosis: InitialDiagnosis;
-
-    @ApiProperty()
-    @Expose()
-    @ManyToOne(() => ServiceOrder, (serviceOrder) => serviceOrder.devices, {onDelete: 'CASCADE'})
+    @ManyToOne(() => ServiceOrder, (serviceOrder) => serviceOrder.devices, {onDelete: 'CASCADE', nullable: true})
     serviceOrder: ServiceOrder;
 
 }

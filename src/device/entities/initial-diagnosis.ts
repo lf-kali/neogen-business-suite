@@ -1,44 +1,45 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Device } from "./device.entity";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsEnum, IsNotEmpty, IsString, MaxLength } from "class-validator";
 
-@Entity({name: 'tb_initial_diagnosis'})
 export class InitialDiagnosis {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column({type: 'json', nullable: false})
-    handedAccessories: {
-        charger: boolean,
-        cable: boolean,
-        case: boolean,
-        storageDevice: 'sd_card' | 'flash_drive' | 'external_hdd' | 'external_ssd' | null,
-    }
-
-    @Column({length: 255, nullable: false})
-    externalState: string;
-
-    @Column({default: true})
-    turnsOn: boolean;
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
+    @MaxLength(255)
+    public externalState: string;
     
-    @Column({default: 'ok', length: 255})
-    audio: 'ok' | string;
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsBoolean()
+    public turnsOn: boolean;
     
-    @Column({type: 'enum', enum: ['ok', 'cracked', 'leaking', 'no_video']})
-    screen: 'ok' | 'cracked' | 'leaking' | 'no_video';
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
+    public audio: string;
     
-    @Column({type: 'enum', enum: ['ok', 'swollen', 'not_charging']})
-    battery: 'ok' | 'swollen' | 'not_charging';
-
-    @Column({type: 'enum', enum: ['ok', 'damaged', 'not_working']})
-    rearCamera: 'ok' | 'damaged' | 'not_working';
-
-    @Column({type: 'enum', enum: ['ok', 'damaged', 'not_working']})
-    frontalCamera: 'ok' | 'damaged' | 'not_working';
-
-    @Column({type: 'enum', enum: ['ok', 'phantom_touch', 'not_working']})
-    touch: 'ok' | 'phantom_touch' | 'not_working';
-
-    @OneToOne(() => Device, (device) => device.initialDiagnosis, {onDelete: 'CASCADE'})
-    @JoinColumn()
-    device: Device;
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(['ok', 'damaged', 'no_video'])
+    public screen: 'ok' | 'damaged' | 'no_video';
+    
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(['ok', 'damaged', 'swollen', 'not_charging'])
+    public battery: 'ok' | 'damaged' |'swollen' | 'not_charging';
+    
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(['ok', 'damaged', 'not_working'])
+    public rearCamera: 'ok' | 'damaged' | 'not_working';
+    
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(['ok', 'damaged', 'not_working'])
+    public frontalCamera: 'ok' | 'damaged' | 'not_working';
+    
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(['ok', 'damaged', 'phantom_touch', 'not_working'])
+    public touch: 'ok' | 'damaged' | 'phantom_touch' | 'not_working';
 }
