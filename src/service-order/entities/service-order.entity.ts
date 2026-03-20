@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -15,6 +14,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Device } from '../../device/entities/device.entity';
 import { Product } from '../../product/entities/product.entity';
+import { ServiceType } from '../../service-type/entities/service-type.entity';
 
 @Exclude()
 @Entity({ name: 'tb_service_order' })
@@ -33,7 +33,7 @@ export class ServiceOrder {
   @ApiProperty()
   @Expose()
   @Column({ length: 20, default: 'confirmed' })
-  status: 'confirmed' | 'acquiring_parts' | 'ongoing' | 'finished';
+  status: 'pending' | 'confirmed' | 'acquiring_parts' | 'ongoing' | 'finished' | 'cancelled';
 
   @ApiProperty()
   @Expose()
@@ -54,6 +54,10 @@ export class ServiceOrder {
   @Expose()
   @Column({ name: 'closure_notes', length: 1000, nullable: true })
   closureNotes: string;
+
+  @Expose()
+  @Column({type: 'float', nullable: false})
+  finalPrice: number;
 
   @ApiProperty()
   @Expose()
@@ -79,9 +83,8 @@ export class ServiceOrder {
   @JoinTable()
   products: Product[];
 
-  /*
-        Campos relacionais:
-
-        services: Service[];
-    */
+  @Expose()
+  @ManyToMany(() => ServiceType, (servicetype) => servicetype.serviceOrders)
+  @JoinTable()
+  services: ServiceType[];
 }

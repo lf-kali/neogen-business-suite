@@ -33,4 +33,11 @@ export class CreateServiceOrderDTO {
   @Type(() => Number)
   productIDs?: number[];
 
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  @IsInt({each:true})
+  @Type(() => Number)
+  serviceTypeIDs: number[];
+
 }
