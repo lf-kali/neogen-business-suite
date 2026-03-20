@@ -25,4 +25,19 @@ export class CreateServiceOrderDTO {
   @IsInt({each:true})
   @Type(() => Number)
   deviceIDs: number[];
+
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  @IsInt({each:true})
+  @Type(() => Number)
+  productIDs?: number[];
+
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  @IsInt({each:true})
+  @Type(() => Number)
+  serviceTypeIDs: number[];
+
 }

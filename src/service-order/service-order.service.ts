@@ -8,6 +8,10 @@ import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
 import { CostumerService } from '../costumer/costumer.service';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
 import { DeviceService } from '../device/device.service';
+import { ProductService } from '../product/product.service';
+import { Product } from '../product/entities/product.entity';
+import { ServiceType } from '../service-type/entities/service-type.entity';
+import { ServiceTypeService } from '../service-type/service-type.service';
 
 @Injectable()
 export class ServiceOrderService {
@@ -18,6 +22,8 @@ export class ServiceOrderService {
     private costumerService: CostumerService,
     @Inject(forwardRef(() => DeviceService))
     private deviceService: DeviceService,
+    private productService: ProductService,
+    private serviceTypeService: ServiceTypeService,
   ) {}
 
   async findAll(): Promise<ServiceOrder[]> {
@@ -26,6 +32,7 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
       },
     });
   }
@@ -42,6 +49,7 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
       },
     });
     return dateSearch;
@@ -56,6 +64,8 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
+        services: true,
       },
     });
     if (!serviceOrder) {
@@ -72,8 +82,18 @@ export class ServiceOrderService {
     const costumer = await this.costumerService.findByID(dto.costumerId);
 
     const protoServiceOrder = this.serviceOrderRepository.create(dto);
+    
     protoServiceOrder.technician = technician;
     protoServiceOrder.costumer = costumer;
+    protoServiceOrder.services = await this.addServiceTypesByID(dto.serviceTypeIDs);
+
+    if (dto.productIDs){
+      protoServiceOrder.products = await this.addProductsByID(dto.productIDs);
+    }
+    
+    protoServiceOrder.finalPrice = this.getFinalPrice(protoServiceOrder.services, protoServiceOrder.products);
+
+
 
     const serviceOrder = await this.serviceOrderRepository.save(protoServiceOrder);
 
@@ -81,7 +101,7 @@ export class ServiceOrderService {
       await this.deviceService.update(id, {serviceOrderId: serviceOrder.id});
     }
 
-    return serviceOrder;
+    return this.findByID(serviceOrder.id);
   }
 
   async update(id: number, dto: UpdateServiceOrderDto): Promise<ServiceOrder> {
@@ -99,9 +119,25 @@ export class ServiceOrderService {
       serviceOrder.costumer = costumer;
     }
 
+    if (dto.deviceIDs) {
+      for (let id of dto.deviceIDs){
+        await this.deviceService.update(id, {serviceOrderId: serviceOrder.id})
+      }
+    }
+    
+    if (dto.serviceTypeIDs){
+      serviceOrder.services = await this.addServiceTypesByID(dto.serviceTypeIDs);
+    }
+
+    if (dto.productIDs){
+      serviceOrder.products = await this.addProductsByID(dto.productIDs);
+    }
+
+    serviceOrder.finalPrice = this.getFinalPrice(serviceOrder.services, serviceOrder.products)
+
     const noRelationDto: Omit<
       UpdateServiceOrderDto,
-      'technicianId' | 'costumerId'
+      'technicianId' | 'costumerId' | 'deviceIDs' | 'productIDs' | 'serviceTypeIDs'
     > = dto;
 
     Object.assign(serviceOrder, noRelationDto);
@@ -112,5 +148,45 @@ export class ServiceOrderService {
     await this.findByID(id);
 
     return await this.serviceOrderRepository.delete(id);
+  }
+
+  private async addProductsByID(IDs: number[]): Promise<Product[]> {
+    const products: Product[] = []; 
+    for (let id of IDs) {
+      const product = await this.productService.findByID(id);
+      products.push(product);
+    }
+
+    return products;
+  }
+
+  private async addServiceTypesByID(IDs: number[]): Promise<ServiceType[]> {
+    const services: ServiceType[] = [];
+    for (let id of IDs) {
+      const service = await this.serviceTypeService.findById(id);
+      services.push(service);
+    }
+
+    return services;
+  }
+
+  private getFinalPrice(services?: ServiceType[], products?: Product[]) {
+    let total: number = 0;
+
+    if (!services) return total;
+    
+    for (let service of services) {
+      const price = service.salePrice;
+      total += price;
+    }
+
+    if (!products) return total;
+
+    for (let product of products) {
+      const price = product.salePrice;
+      total += price;
+    }    
+
+    return total;
   }
 }
