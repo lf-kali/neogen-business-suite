@@ -6,9 +6,10 @@ import { ServiceOrder } from './entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 import { CostumerModule } from '../costumer/costumer.module';
 import { DeviceModule } from '../device/device.module';
+import { ProductModule } from '../product/product.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ServiceOrder]), TechnicianModule, CostumerModule, forwardRef(() => DeviceModule)],
+  imports: [TypeOrmModule.forFeature([ServiceOrder]), TechnicianModule, CostumerModule, ProductModule, forwardRef(() => DeviceModule)],
   providers: [ServiceOrderService],
   controllers: [ServiceOrderController],
   exports: [ServiceOrderService],

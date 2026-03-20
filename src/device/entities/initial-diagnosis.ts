@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsEnum, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class InitialDiagnosis {
     @ApiProperty()
@@ -9,37 +9,37 @@ export class InitialDiagnosis {
     public externalState: string;
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsBoolean()
-    public turnsOn: boolean;
+    public turnsOn?: boolean;
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    public audio: string;
+    public audio?: string;
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ok', 'damaged', 'no_video'])
-    public screen: 'ok' | 'damaged' | 'no_video';
+    public screen?: 'ok' | 'damaged' | 'no_video';
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ok', 'damaged', 'swollen', 'not_charging'])
-    public battery: 'ok' | 'damaged' |'swollen' | 'not_charging';
+    public battery?: 'ok' | 'damaged' |'swollen' | 'not_charging';
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ok', 'damaged', 'not_working'])
-    public rearCamera: 'ok' | 'damaged' | 'not_working';
+    public rearCamera?: 'ok' | 'damaged' | 'not_working';
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ok', 'damaged', 'not_working'])
-    public frontalCamera: 'ok' | 'damaged' | 'not_working';
+    public frontalCamera?: 'ok' | 'damaged' | 'not_working';
     
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ok', 'damaged', 'phantom_touch', 'not_working'])
-    public touch: 'ok' | 'damaged' | 'phantom_touch' | 'not_working';
+    public touch?: 'ok' | 'damaged' | 'phantom_touch' | 'not_working';
 }

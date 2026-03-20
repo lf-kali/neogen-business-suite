@@ -2,6 +2,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,6 +14,7 @@ import { Costumer } from '../../costumer/entities/costumer.entity';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Device } from '../../device/entities/device.entity';
+import { Product } from '../../product/entities/product.entity';
 
 @Exclude()
 @Entity({ name: 'tb_service_order' })
@@ -69,6 +73,11 @@ export class ServiceOrder {
   @Expose()
   @OneToMany(() => Device, (device) => device.serviceOrder)
   devices: Device[];
+
+  @Expose()
+  @ManyToMany(()=> Product, (product)=>product.serviceOrders)
+  @JoinTable()
+  products: Product[];
 
   /*
         Campos relacionais:

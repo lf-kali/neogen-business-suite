@@ -7,6 +7,8 @@ import { DeviceBrand } from "../../device-brand/entities/device-brand.entity";
 import { DeviceModel } from "../../device-model/entities/device-model.entity";
 import { InitialDiagnosis } from "../../device/entities/initial-diagnosis";
 import { Injectable } from "@nestjs/common";
+import { Product } from "../../product/entities/product.entity";
+import { ProductCategory } from "../../product-category/entities/product-category.entity";
 
 @Injectable()
 export class DevService implements TypeOrmOptionsFactory {
@@ -18,7 +20,7 @@ export class DevService implements TypeOrmOptionsFactory {
             username: 'root',
             password: 'root',
             database: 'db_neogen_business_suite',
-            entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel],
+            entities: [ServiceOrder, Technician, Costumer, Device, DeviceBrand, DeviceModel, Product, ProductCategory],
             synchronize: true,
         }
     }

@@ -8,6 +8,8 @@ import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
 import { CostumerService } from '../costumer/costumer.service';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
 import { DeviceService } from '../device/device.service';
+import { ProductService } from '../product/product.service';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class ServiceOrderService {
@@ -18,6 +20,7 @@ export class ServiceOrderService {
     private costumerService: CostumerService,
     @Inject(forwardRef(() => DeviceService))
     private deviceService: DeviceService,
+    private productService: ProductService,
   ) {}
 
   async findAll(): Promise<ServiceOrder[]> {
@@ -26,6 +29,7 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
       },
     });
   }
@@ -42,6 +46,7 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
       },
     });
     return dateSearch;
@@ -56,6 +61,7 @@ export class ServiceOrderService {
         technician: true,
         costumer: true,
         devices: true,
+        products: true,
       },
     });
     if (!serviceOrder) {
@@ -74,8 +80,13 @@ export class ServiceOrderService {
     const protoServiceOrder = this.serviceOrderRepository.create(dto);
     protoServiceOrder.technician = technician;
     protoServiceOrder.costumer = costumer;
+    
+    if (dto.productIDs){
+      protoServiceOrder.products = await this.addProductsByID(dto.productIDs);
+    }    
 
     const serviceOrder = await this.serviceOrderRepository.save(protoServiceOrder);
+
 
     for (let id of dto.deviceIDs){
       await this.deviceService.update(id, {serviceOrderId: serviceOrder.id});
@@ -118,5 +129,15 @@ export class ServiceOrderService {
     await this.findByID(id);
 
     return await this.serviceOrderRepository.delete(id);
+  }
+
+  async addProductsByID(IDs: number[]): Promise<Product[]> {
+    const products: Product[] = []; 
+    for (let id of IDs) {
+      const product = await this.productService.findByID(id);
+      products.push(product)
+    }
+
+    return products;
   }
 }
