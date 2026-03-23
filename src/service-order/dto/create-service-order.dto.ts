@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsDateString, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
 
 
 export class CreateServiceOrderDTO {
@@ -10,7 +10,8 @@ export class CreateServiceOrderDTO {
 
   @ApiProperty()
   @IsOptional()
-  status?: 'confirmed' | 'acquiring_parts' | 'ongoing' | 'finished';
+  @IsEnum(['pending' , 'confirmed' , 'acquiring_parts' , 'ongoing' , 'finished' , 'cancelled'])
+  status?: 'pending' | 'confirmed' | 'acquiring_parts' | 'ongoing' | 'finished' | 'cancelled';
 
   @ApiProperty()
   @IsNotEmpty()
