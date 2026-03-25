@@ -44,5 +44,4 @@ export class ServiceTypeController {
     async delete(@Param('id') id: number): Promise<DeleteResult> {
         return this.serviceTypeService.delete(id);
     }
-
 }
