@@ -28,22 +28,22 @@ export class Costumer {
   phone: string;
 
   @ApiProperty()
-  @Exclude()
+  @Expose()
   @Column({ length: 255, nullable: false })
   address: string;
 
   @ApiProperty()
-  @Exclude()
+  @Expose()
   @Column({ length: 8, nullable: false })
   cep: string;
 
   @ApiProperty()
-  @Exclude()
+  @Expose()
   @Column({ length: 11, nullable: false })
   cpf: string;
 
   @ApiProperty()
-  @Exclude()
+  @Expose()
   @Column({ length: 14, nullable: true, default: null })
   cnpj: string;
 

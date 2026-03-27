@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -18,6 +19,7 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CreateCostumerDTO } from './dto/create-costumer.dto';
 import { UpdateCostumerDTO } from './dto/update-costumer.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { DeleteResult } from 'typeorm';
 
 
 @UseGuards(JwtAuthGuard)
@@ -44,11 +46,16 @@ export class CostumerController {
     return this.costumerService.create(dto);
   }
 
-  @Post('/update/:id')
+  @Patch('/update/:id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCostumerDTO,
   ): Promise<Costumer> {
     return this.costumerService.update(id, dto);
+  }
+
+  @Delete('/delete/:id')
+  delete(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
+    return this.costumerService.delete(id);
   }
 }
