@@ -11,7 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { DeviceBrand } from './entities/device-brand.entity';
+import { PortableDeviceBrand } from './entities/device-brand.entity';
 import { DeviceBrandService } from './device-brand.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CreateDeviceBrandDTO } from './dto/create-device-brand.dto';
@@ -28,22 +28,22 @@ export class DeviceBrandController {
   constructor(private readonly deviceBrandService: DeviceBrandService) {}
 
   @Get('/all')
-  findAll(): Promise<DeviceBrand[]> {
+  findAll(): Promise<PortableDeviceBrand[]> {
     return this.deviceBrandService.findAll();
   }
 
   @Get('/id/:id')
-  findByID(@Param('id', ParseIntPipe) id: number): Promise<DeviceBrand> {
+  findByID(@Param('id', ParseIntPipe) id: number): Promise<PortableDeviceBrand> {
     return this.deviceBrandService.findByID(id);
   }
 
   @Get('/name/:name')
-  findByName(@Param('name') name: string): Promise<DeviceBrand[]>{
+  findByName(@Param('name') name: string): Promise<PortableDeviceBrand[]>{
     return this.deviceBrandService.findByName(name)
   }
 
   @Post('/new')
-  create(@Body() dto: CreateDeviceBrandDTO): Promise<DeviceBrand> {
+  create(@Body() dto: CreateDeviceBrandDTO): Promise<PortableDeviceBrand> {
     return this.deviceBrandService.create(dto);
   }
 
@@ -51,7 +51,7 @@ export class DeviceBrandController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDeviceBrandDTO,
-  ): Promise<DeviceBrand> {
+  ): Promise<PortableDeviceBrand> {
     return this.deviceBrandService.update(id, dto);
   }
 

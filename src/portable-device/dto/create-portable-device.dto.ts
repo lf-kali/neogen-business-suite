@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty, IsEnum, IsNumber, Length, IsOptional } from 'clas
 import { InitialDiagnosis } from '../entities/initial-diagnosis';
 import { HandedAccessories } from '../entities/handed-accessories';
 
-export class CreateDeviceDTO {
+export class CreatePortableDeviceDTO {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

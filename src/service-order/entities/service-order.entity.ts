@@ -12,7 +12,7 @@ import { Technician } from '../../technician/entities/technician.entity';
 import { Costumer } from '../../costumer/entities/costumer.entity';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { Device } from '../../device/entities/device.entity';
+import { PortableDevice } from '../../portable-device/entities/portable-device.entity';
 import { Product } from '../../product/entities/product.entity';
 import { ServiceType } from '../../service-type/entities/service-type.entity';
 
@@ -75,8 +75,8 @@ export class ServiceOrder {
 
   @ApiProperty()
   @Expose()
-  @OneToMany(() => Device, (device) => device.serviceOrder)
-  devices: Device[];
+  @OneToMany(() => PortableDevice, (device) => device.serviceOrder)
+  devices: PortableDevice[];
 
   @Expose()
   @ManyToMany(()=> Product, (product)=>product.serviceOrders)

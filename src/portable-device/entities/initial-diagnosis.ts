@@ -42,4 +42,10 @@ export class InitialDiagnosis {
     @IsOptional()
     @IsEnum(['ok', 'damaged', 'phantom_touch', 'not_working'])
     public touch?: 'ok' | 'damaged' | 'phantom_touch' | 'not_working';
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString()
+    @MaxLength(255)
+    public notes?: string;
 }

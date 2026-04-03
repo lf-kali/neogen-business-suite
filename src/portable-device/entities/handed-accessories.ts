@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsOptional } from "class-validator";
+import { IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class HandedAccessories {
     @ApiProperty()
@@ -18,4 +18,10 @@ export class HandedAccessories {
     @IsOptional()
     @IsEnum(['sd_card', 'flash_drive', 'external_hdd', 'external_ssd'])
     public storageDevice?: 'sd_card' | 'flash_drive' | 'external_hdd' | 'external_ssd';
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString()
+    @MaxLength(255)
+    public other?: string;
 }

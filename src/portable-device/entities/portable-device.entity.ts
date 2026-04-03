@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { DeviceBrand } from "../../device-brand/entities/device-brand.entity";
+import { PortableDeviceBrand } from "../../device-brand/entities/device-brand.entity";
 import { DeviceModel } from "../../device-model/entities/device-model.entity";
 import { InitialDiagnosis } from "./initial-diagnosis";
 import { ServiceOrder } from "../../service-order/entities/service-order.entity";
@@ -7,8 +7,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { HandedAccessories } from "./handed-accessories";
 
-@Entity({name: 'tb_devices'})
-export class Device {
+@Entity({name: 'tb_portable_devices'})
+export class PortableDevice {
     @ApiProperty()
     @Expose()
     @PrimaryGeneratedColumn()
@@ -36,8 +36,8 @@ export class Device {
 
     @ApiProperty()
     @Expose()
-    @ManyToOne(() => DeviceBrand, (brand) => brand.devices, {onDelete: 'CASCADE'})
-    brand: DeviceBrand;
+    @ManyToOne(() => PortableDeviceBrand, (brand) => brand.devices, {onDelete: 'CASCADE'})
+    brand: PortableDeviceBrand;
 
     @ApiProperty()
     @Expose()

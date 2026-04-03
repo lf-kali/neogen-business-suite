@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TechnicianModule } from '../technician/technician.module';
 import { AuthModule } from '../auth/auth.module';
 import { CostumerModule } from '../costumer/costumer.module';
-import { DeviceModule } from '../device/device.module';
+import { PortableDeviceModule } from '../portable-device/portable-device.module';
 import { DeviceBrandModule } from '../device-brand/device-brand.module';
 import { DeviceModelModule } from '../device-model/device-model.module';
 import { ConfigModule } from '@nestjs/config';
@@ -27,7 +27,7 @@ import { ServiceTypeModule } from '../service-type/service-type.module';
     TechnicianModule,
     AuthModule,
     CostumerModule,
-    DeviceModule,
+    PortableDeviceModule,
     DeviceBrandModule,
     DeviceModelModule,
     ProductModule,

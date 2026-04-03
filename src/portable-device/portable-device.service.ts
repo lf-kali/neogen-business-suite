@@ -1,35 +1,35 @@
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Device } from './entities/device.entity';
+import { PortableDevice } from './entities/portable-device.entity';
 import { Repository } from 'typeorm';
-import { CreateDeviceDTO } from './dto/create-device.dto';
-import { UpdateDeviceDTO } from './dto/update-device.dto';
+import { CreatePortableDeviceDTO } from './dto/create-portable-device.dto';
+import { UpdatePortableDeviceDTO } from './dto/update-portable-device.dto';
 import { DeleteResult } from 'typeorm/browser';
 import { DeviceModelService } from '../device-model/device-model.service';
-import { DeviceBrand } from '../device-brand/entities/device-brand.entity';
+import { PortableDeviceBrand } from '../device-brand/entities/device-brand.entity';
 import { DeviceBrandService } from '../device-brand/device-brand.service';
 import { DeviceModel } from '../device-model/entities/device-model.entity';
 import { ServiceOrderService } from '../service-order/service-order.service';
 
 @Injectable()
-export class DeviceService {
+export class PortableDeviceService {
     constructor(
-        @InjectRepository(Device)
-        private deviceRepository: Repository<Device>,
+        @InjectRepository(PortableDevice)
+        private portableDeviceRepository: Repository<PortableDevice>,
         private deviceBrandService: DeviceBrandService,
         private deviceModelService: DeviceModelService,
         @Inject(forwardRef(() => ServiceOrderService))
         private serviceOrderService: ServiceOrderService,
     ) {}
 
-    async findAll(): Promise<Device[]> {
-        return await this.deviceRepository.find({
+    async findAll(): Promise<PortableDevice[]> {
+        return await this.portableDeviceRepository.find({
             relations: ['brand', 'model', 'serviceOrder'],
         });
     }
     
-    async findByID(id: number): Promise<Device> {
-        const deviceSearch = await this.deviceRepository.findOne({
+    async findByID(id: number): Promise<PortableDevice> {
+        const deviceSearch = await this.portableDeviceRepository.findOne({
             where: {
                 id: id,
             },
@@ -45,10 +45,10 @@ export class DeviceService {
         return deviceSearch;
     }
 
-    async create(dto: CreateDeviceDTO): Promise<Device> {
-        const brand: DeviceBrand = await this.deviceBrandService.findByID(dto.brandId);
+    async create(dto: CreatePortableDeviceDTO): Promise<PortableDevice> {
+        const brand: PortableDeviceBrand = await this.deviceBrandService.findByID(dto.brandId);
         const model: DeviceModel = await this.deviceModelService.findByID(dto.modelId);
-        const device: Device = this.deviceRepository.create(dto);
+        const device: PortableDevice = this.portableDeviceRepository.create(dto);
 
         device.brand = brand;
         device.model = model;
@@ -58,10 +58,10 @@ export class DeviceService {
             device.serviceOrder = serviceOrder;
         }
 
-        return await this.deviceRepository.save(device);
+        return await this.portableDeviceRepository.save(device);
     }
 
-    async update(id: number, dto: UpdateDeviceDTO): Promise<Device> {
+    async update(id: number, dto: UpdatePortableDeviceDTO): Promise<PortableDevice> {
         const device = await this.findByID(id);
 
         if (dto.brandId) {
@@ -79,15 +79,15 @@ export class DeviceService {
             device.serviceOrder = serviceOrder;
         }
 
-        const noRelationDto: Omit<UpdateDeviceDTO, 'brandId' | 'modelId' | 'serviceOrderId'> = dto;
+        const noRelationDto: Omit<UpdatePortableDeviceDTO, 'brandId' | 'modelId' | 'serviceOrderId'> = dto;
 
         Object.assign(device, noRelationDto);
-        return await this.deviceRepository.save(device);
+        return await this.portableDeviceRepository.save(device);
     }
 
     async delete(id: number): Promise<DeleteResult> {
         await this.findByID(id);
 
-        return await this.deviceRepository.delete(id);
+        return await this.portableDeviceRepository.delete(id);
     }
 }

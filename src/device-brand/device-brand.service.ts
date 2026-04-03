@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { DeviceBrand } from './entities/device-brand.entity';
+import { CellphoneBrand, LaptopBrand, PortableDeviceBrand, TabletBrand } from './entities/device-brand.entity';
 import { ILike, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDeviceBrandDTO } from './dto/create-device-brand.dto';
@@ -9,18 +9,24 @@ import { DeleteResult } from 'typeorm/browser';
 @Injectable()
 export class DeviceBrandService {
   constructor(
-    @InjectRepository(DeviceBrand)
-    private deviceBrandRepository: Repository<DeviceBrand>,
+    @InjectRepository(PortableDeviceBrand)
+    private portableDeviceBrandRepository: Repository<PortableDeviceBrand>,
+    @InjectRepository(CellphoneBrand)
+    private cellphoneBrandRepository: Repository<CellphoneBrand>,
+    @InjectRepository(LaptopBrand)
+    private laptopBrandRepository: Repository<LaptopBrand>,
+    @InjectRepository(CellphoneBrand)
+    private tabletBrandRepository: Repository<TabletBrand>,
   ) {}
 
-  async findAll(): Promise<DeviceBrand[]> {
-    return await this.deviceBrandRepository.find({
+  async findAll(): Promise<PortableDeviceBrand[]> {
+    return await this.portableDeviceBrandRepository.find({
       relations: ['devices', 'models'],
     });
   }
 
-  async findByID(id: number): Promise<DeviceBrand> {
-    const deviceBrandSearch = await this.deviceBrandRepository.findOne({
+  async findByID(id: number): Promise<PortableDeviceBrand> {
+    const deviceBrandSearch = await this.portableDeviceBrandRepository.findOne({
       where: {
         id: id,
       },
@@ -36,8 +42,8 @@ export class DeviceBrandService {
     return deviceBrandSearch;
   }
 
-  async findByName(name: string): Promise<DeviceBrand[]> {
-    const deviceBrandSearch = await this.deviceBrandRepository.find({
+  async findByName(name: string): Promise<PortableDeviceBrand[]> {
+    const deviceBrandSearch = await this.portableDeviceBrandRepository.find({
       where: {
         name: Like(name),
       },
@@ -56,22 +62,22 @@ export class DeviceBrandService {
     return deviceBrandSearch;
   }
 
-  async create(dto: CreateDeviceBrandDTO): Promise<DeviceBrand> {
-    const deviceBrand = this.deviceBrandRepository.create(dto);
+  async create(dto: CreateDeviceBrandDTO): Promise<PortableDeviceBrand> {
+    const deviceBrand = this.portableDeviceBrandRepository.create(dto);
 
-    return await this.deviceBrandRepository.save(deviceBrand);
+    return await this.portableDeviceBrandRepository.save(deviceBrand);
   }
 
-  async update(id: number, dto: UpdateDeviceBrandDTO): Promise<DeviceBrand> {
+  async update(id: number, dto: UpdateDeviceBrandDTO): Promise<PortableDeviceBrand> {
     const deviceBrand = await this.findByID(id);
 
     Object.assign(deviceBrand, dto);
-    return await this.deviceBrandRepository.save(deviceBrand);
+    return await this.portableDeviceBrandRepository.save(deviceBrand);
   }
 
   async delete(id: number): Promise<DeleteResult> {
     await this.findByID(id);
 
-    return await this.deviceBrandRepository.delete(id);
+    return await this.portableDeviceBrandRepository.delete(id);
   }
 }
