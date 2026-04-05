@@ -5,12 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServiceOrder } from './entities/service-order.entity';
 import { TechnicianModule } from '../technician/technician.module';
 import { CostumerModule } from '../costumer/costumer.module';
-import { PortableDeviceModule } from '../portable-device/portable-device.module';
+import { CellphoneModule } from '../portable-device/cellphone/cellphone.module';
 import { ProductModule } from '../product/product.module';
 import { ServiceTypeModule } from '../service-type/service-type.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ServiceOrder]), TechnicianModule, CostumerModule, ProductModule, ServiceTypeModule, forwardRef(() => PortableDeviceModule)],
+  imports: [TypeOrmModule.forFeature([ServiceOrder]), TechnicianModule, CostumerModule, ProductModule, ServiceTypeModule, forwardRef(() => CellphoneModule)],
   providers: [ServiceOrderService],
   controllers: [ServiceOrderController],
   exports: [ServiceOrderService],

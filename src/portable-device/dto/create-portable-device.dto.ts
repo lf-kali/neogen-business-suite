@@ -11,11 +11,6 @@ export class CreatePortableDeviceDTO {
   problemDescription: string;
 
   @ApiProperty()
-  @IsEnum(['cellphone', 'laptop', 'pc', 'tablet'])
-  @IsNotEmpty()
-  category: 'cellphone' | 'laptop' | 'pc' | 'tablet';
-
-  @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
   brandId: number;

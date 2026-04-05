@@ -1,11 +1,11 @@
 import { ChildEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 import { PortableDevice } from "../../portable-device/entities/portable-device.entity";
-import { DeviceModel } from "../../device-model/entities/device-model.entity";
+import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { Exclude, Expose } from "class-transformer";
 
 @Exclude()
-@Entity({name: 'device_brands'})
+@Entity({name: 'tb_portable_device_brands'})
 @TableInheritance({column: {type: 'varchar', name: 'type'}})
 export class PortableDeviceBrand {
     @ApiProperty()
@@ -25,8 +25,8 @@ export class PortableDeviceBrand {
 
     @ApiProperty()
     @Expose()
-    @OneToMany(() => DeviceModel, (model) => model.brand)
-    models: DeviceModel[]
+    @OneToMany(() => PortableDeviceModel, (model) => model.brand)
+    models: PortableDeviceModel[]
 }
 
 @ChildEntity()

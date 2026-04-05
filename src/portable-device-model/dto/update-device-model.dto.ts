@@ -1,6 +1,6 @@
 import { IsString, IsOptional, IsNumber, Length } from 'class-validator';
 
-export class UpdateDeviceModelDTO {
+export class UpdatePortableDeviceModelDTO {
   @IsString()
   @IsOptional()
   @Length(1, 255)

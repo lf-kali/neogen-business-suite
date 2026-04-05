@@ -7,7 +7,7 @@ import { TechnicianService } from '../technician/technician.service';
 import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
 import { CostumerService } from '../costumer/costumer.service';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
-import { PortableDeviceService } from '../portable-device/portable-device.service';
+import { CellphoneService } from '../portable-device/cellphone/cellphone.service';
 import { ProductService } from '../product/product.service';
 import { Product } from '../product/entities/product.entity';
 import { ServiceType } from '../service-type/entities/service-type.entity';
@@ -20,8 +20,8 @@ export class ServiceOrderService {
     private serviceOrderRepository: Repository<ServiceOrder>,
     private technicianService: TechnicianService,
     private costumerService: CostumerService,
-    @Inject(forwardRef(() => PortableDeviceService))
-    private deviceService: PortableDeviceService,
+    @Inject(forwardRef(() => CellphoneService))
+    private deviceService: CellphoneService,
     private productService: ProductService,
     private serviceTypeService: ServiceTypeService,
   ) {}

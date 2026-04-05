@@ -6,15 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TechnicianModule } from '../technician/technician.module';
 import { AuthModule } from '../auth/auth.module';
 import { CostumerModule } from '../costumer/costumer.module';
-import { PortableDeviceModule } from '../portable-device/portable-device.module';
-import { DeviceBrandModule } from '../device-brand/device-brand.module';
-import { DeviceModelModule } from '../device-model/device-model.module';
+import { CellphoneModule } from '../portable-device/cellphone/cellphone.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProdService } from '../data/services/prod.service';
 import { DevService } from '../data/services/dev.service';
 import { ProductModule } from '../product/product.module';
 import { ProductCategoryModule } from '../product-category/product-category.module';
 import { ServiceTypeModule } from '../service-type/service-type.module';
+import { CellphoneBrandModule } from '../portable-device-brand/cellphone-brand/cellphone-brand.module';
+import { CellphoneModelModule } from '../portable-device-model/cellphone-model/cellphone-model.module';
 
 @Module({
   imports: [
@@ -27,9 +27,9 @@ import { ServiceTypeModule } from '../service-type/service-type.module';
     TechnicianModule,
     AuthModule,
     CostumerModule,
-    PortableDeviceModule,
-    DeviceBrandModule,
-    DeviceModelModule,
+    CellphoneModule,
+    CellphoneBrandModule,
+    CellphoneModelModule,
     ProductModule,
     ProductCategoryModule,
     ServiceTypeModule,

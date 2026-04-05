@@ -1,13 +1,15 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { PortableDeviceBrand } from "../../device-brand/entities/device-brand.entity";
-import { DeviceModel } from "../../device-model/entities/device-model.entity";
+import { ChildEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { PortableDeviceBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
+import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
 import { InitialDiagnosis } from "./initial-diagnosis";
 import { ServiceOrder } from "../../service-order/entities/service-order.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import { HandedAccessories } from "./handed-accessories";
 
+@Exclude()
 @Entity({name: 'tb_portable_devices'})
+@TableInheritance({column: {type: 'varchar', name: 'type'}})
 export class PortableDevice {
     @ApiProperty()
     @Expose()
@@ -18,11 +20,6 @@ export class PortableDevice {
     @Expose()
     @Column({ name: 'problem_description', length: 255, nullable: false })
     problemDescription: string;
-
-    @ApiProperty()
-    @Expose()
-    @Column({type: 'enum', enum: ['cellphone', 'laptop', 'pc', 'tablet']})
-    category: 'cellphone' | 'laptop' | 'pc' | 'tablet';
 
     @ApiProperty()
     @Expose()
@@ -41,8 +38,8 @@ export class PortableDevice {
 
     @ApiProperty()
     @Expose()
-    @ManyToOne(() => DeviceModel, (model) => model.devices)
-    model: DeviceModel;
+    @ManyToOne(() => PortableDeviceModel, (model) => model.devices)
+    model: PortableDeviceModel;
 
     @ApiProperty()
     @Expose()
@@ -50,3 +47,12 @@ export class PortableDevice {
     serviceOrder: ServiceOrder;
 
 }
+
+@ChildEntity()
+export class Cellphone extends PortableDevice {}
+
+@ChildEntity()
+export class Tablet extends PortableDevice {}
+
+@ChildEntity()
+export class Laptop extends PortableDevice {}
