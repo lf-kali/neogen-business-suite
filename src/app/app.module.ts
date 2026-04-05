@@ -15,6 +15,12 @@ import { ProductCategoryModule } from '../product-category/product-category.modu
 import { ServiceTypeModule } from '../service-type/service-type.module';
 import { CellphoneBrandModule } from '../portable-device-brand/cellphone-brand/cellphone-brand.module';
 import { CellphoneModelModule } from '../portable-device-model/cellphone-model/cellphone-model.module';
+import { LaptopBrandModule } from '../portable-device-brand/laptop-brand/laptop-brand.module';
+import { LaptopModule } from '../portable-device/laptop/laptop.module';
+import { LaptopModelModule } from '../portable-device-model/laptop-model/laptop-model.module';
+import { TabletBrandModule } from '../portable-device-brand/tablet-brand/tablet-brand.module';
+import { TabletModelModule } from '../portable-device-model/tablet-model/tablet-model.module';
+import { TabletModule } from '../portable-device/tablet/tablet.module';
 
 @Module({
   imports: [
@@ -30,6 +36,12 @@ import { CellphoneModelModule } from '../portable-device-model/cellphone-model/c
     CellphoneModule,
     CellphoneBrandModule,
     CellphoneModelModule,
+    LaptopModule,
+    LaptopBrandModule,
+    LaptopModelModule,
+    TabletModule,
+    TabletBrandModule,
+    TabletModelModule,
     ProductModule,
     ProductCategoryModule,
     ServiceTypeModule,

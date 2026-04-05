@@ -21,7 +21,7 @@ export class ServiceOrderService {
     private technicianService: TechnicianService,
     private costumerService: CostumerService,
     @Inject(forwardRef(() => CellphoneService))
-    private deviceService: CellphoneService,
+    private cellphoneService: CellphoneService,
     private productService: ProductService,
     private serviceTypeService: ServiceTypeService,
   ) {}
@@ -98,7 +98,7 @@ export class ServiceOrderService {
     const serviceOrder = await this.serviceOrderRepository.save(protoServiceOrder);
 
     for (let id of dto.deviceIDs){
-      await this.deviceService.update(id, {serviceOrderId: serviceOrder.id});
+      await this.cellphoneService.update(id, {serviceOrderId: serviceOrder.id});
     }
 
     return this.findByID(serviceOrder.id);
@@ -121,7 +121,7 @@ export class ServiceOrderService {
 
     if (dto.deviceIDs) {
       for (let id of dto.deviceIDs){
-        await this.deviceService.update(id, {serviceOrderId: serviceOrder.id})
+        await this.cellphoneService.update(id, {serviceOrderId: serviceOrder.id})
       }
     }
     
