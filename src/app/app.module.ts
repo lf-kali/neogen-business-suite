@@ -21,6 +21,7 @@ import { LaptopModelModule } from '../portable-device-model/laptop-model/laptop-
 import { TabletBrandModule } from '../portable-device-brand/tablet-brand/tablet-brand.module';
 import { TabletModelModule } from '../portable-device-model/tablet-model/tablet-model.module';
 import { TabletModule } from '../portable-device/tablet/tablet.module';
+import { PortableDeviceModule } from '../portable-device/portable-device.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TabletModule } from '../portable-device/tablet/tablet.module';
     TechnicianModule,
     AuthModule,
     CostumerModule,
+    PortableDeviceModule,
     CellphoneModule,
     CellphoneBrandModule,
     CellphoneModelModule,

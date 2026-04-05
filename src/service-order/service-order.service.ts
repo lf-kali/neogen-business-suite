@@ -7,21 +7,21 @@ import { TechnicianService } from '../technician/technician.service';
 import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
 import { CostumerService } from '../costumer/costumer.service';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
-import { CellphoneService } from '../portable-device/cellphone/cellphone.service';
 import { ProductService } from '../product/product.service';
 import { Product } from '../product/entities/product.entity';
 import { ServiceType } from '../service-type/entities/service-type.entity';
 import { ServiceTypeService } from '../service-type/service-type.service';
+import { PortableDevice } from '../portable-device/entities/portable-device.entity';
 
 @Injectable()
 export class ServiceOrderService {
   constructor(
     @InjectRepository(ServiceOrder)
     private serviceOrderRepository: Repository<ServiceOrder>,
+    @InjectRepository(PortableDevice)
+    private deviceRepo: Repository<PortableDevice>,
     private technicianService: TechnicianService,
     private costumerService: CostumerService,
-    @Inject(forwardRef(() => CellphoneService))
-    private cellphoneService: CellphoneService,
     private productService: ProductService,
     private serviceTypeService: ServiceTypeService,
   ) {}
@@ -80,28 +80,24 @@ export class ServiceOrderService {
   async create(dto: CreateServiceOrderDTO): Promise<ServiceOrder> {
     const technician = await this.technicianService.findByID(dto.technicianId);
     const costumer = await this.costumerService.findByID(dto.costumerId);
+    const devices = await this.deviceRepo.findBy(
+      dto.deviceIDs.map(id => ({id}))
+    );
 
-    const protoServiceOrder = this.serviceOrderRepository.create(dto);
+    const serviceOrder = this.serviceOrderRepository.create(dto);
     
-    protoServiceOrder.technician = technician;
-    protoServiceOrder.costumer = costumer;
-    protoServiceOrder.services = await this.addServiceTypesByID(dto.serviceTypeIDs);
+    serviceOrder.technician = technician;
+    serviceOrder.costumer = costumer;
+    serviceOrder.devices = devices;
+    serviceOrder.services = await this.addServiceTypesByID(dto.serviceTypeIDs);
 
     if (dto.productIDs){
-      protoServiceOrder.products = await this.addProductsByID(dto.productIDs);
+      serviceOrder.products = await this.addProductsByID(dto.productIDs);
     }
     
-    protoServiceOrder.finalPrice = this.getFinalPrice(protoServiceOrder.services, protoServiceOrder.products);
+    serviceOrder.finalPrice = this.getFinalPrice(serviceOrder.services, serviceOrder.products);
 
-
-
-    const serviceOrder = await this.serviceOrderRepository.save(protoServiceOrder);
-
-    for (let id of dto.deviceIDs){
-      await this.cellphoneService.update(id, {serviceOrderId: serviceOrder.id});
-    }
-
-    return this.findByID(serviceOrder.id);
+    return this.serviceOrderRepository.save(serviceOrder)
   }
 
   async update(id: number, dto: UpdateServiceOrderDto): Promise<ServiceOrder> {
@@ -120,9 +116,10 @@ export class ServiceOrderService {
     }
 
     if (dto.deviceIDs) {
-      for (let id of dto.deviceIDs){
-        await this.cellphoneService.update(id, {serviceOrderId: serviceOrder.id})
-      }
+      const devices = await this.deviceRepo.findBy(
+        dto.deviceIDs.map(id => ({id}))
+      );
+      serviceOrder.devices = devices;
     }
     
     if (dto.serviceTypeIDs){

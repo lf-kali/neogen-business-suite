@@ -7,7 +7,7 @@ export class CreateServiceOrderDTO {
   @ApiProperty()
   @IsDateString()
   deadline: Date;
-
+  
   @ApiProperty()
   @IsOptional()
   @IsEnum(['pending' , 'confirmed' , 'acquiring_parts' , 'ongoing' , 'finished' , 'cancelled'])
@@ -22,6 +22,7 @@ export class CreateServiceOrderDTO {
   costumerId: number;
 
   @ApiProperty()
+  @IsNotEmpty()
   @IsArray()
   @IsInt({each:true})
   @Type(() => Number)

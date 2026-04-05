@@ -46,6 +46,8 @@ export class PortableDevice {
     @ManyToOne(() => ServiceOrder, (serviceOrder) => serviceOrder.devices, {onDelete: 'CASCADE', nullable: true})
     serviceOrder: ServiceOrder;
 
+    @Column({name: 'type', insert: false, update: false})
+    type: string;
 }
 
 @ChildEntity()
