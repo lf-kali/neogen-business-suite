@@ -8,7 +8,7 @@ import { CellphoneBrand } from '../entities/portable-device-brand.entity';
 import { CellPhoneBrandService } from './cellphone-brand.service';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { BrandBaseController } from '../brand-base.controller';
+import { BrandBaseController } from '../abstract/brand-base.controller';
 
 
 @UseGuards(JwtAuthGuard)

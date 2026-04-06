@@ -7,7 +7,7 @@ import { CellPhoneBrandService } from '../../portable-device-brand/cellphone-bra
 import { CellphoneModel } from '../../portable-device-model/entities/portable-device-model.entity';
 import { ServiceOrderService } from '../../service-order/service-order.service';
 import { CellphoneModelService } from '../../portable-device-model/cellphone-model/cellphone-model.service';
-import { PortableDeviceBaseService } from '../device-base.service';
+import { PortableDeviceBaseService } from '../abstract/device-base.service';
 import { CreatePortableDeviceDTO } from '../dto/create-portable-device.dto';
 
 @Injectable()

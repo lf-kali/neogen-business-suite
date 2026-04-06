@@ -1,8 +1,8 @@
 import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
 import { BrandBaseService } from "./brand-base.service";
-import { PortableDeviceBrand } from "./entities/portable-device-brand.entity";
-import { UpdateDeviceBrandDTO } from "./dto/update-device-brand.dto";
-import { CreateDeviceBrandDTO } from "./dto/create-device-brand.dto";
+import { PortableDeviceBrand } from "../entities/portable-device-brand.entity";
+import { UpdateDeviceBrandDTO } from "../dto/update-device-brand.dto";
+import { CreateDeviceBrandDTO } from "../dto/create-device-brand.dto";
 
 export abstract class BrandBaseController<T extends PortableDeviceBrand> {
     constructor(protected service: BrandBaseService<T>){}

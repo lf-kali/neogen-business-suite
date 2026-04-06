@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { PortableDeviceBaseService } from "../device-base.service";
+import { PortableDeviceBaseService } from "../abstract/device-base.service";
 import { Tablet } from "../entities/portable-device.entity";
 import { TabletBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
 import { TabletModel } from "../../portable-device-model/entities/portable-device-model.entity";

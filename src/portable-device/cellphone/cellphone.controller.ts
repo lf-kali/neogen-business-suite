@@ -7,7 +7,7 @@ import {
 import { CellphoneService } from './cellphone.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
-import { PortableDeviceBaseController } from '../device-base.controller';
+import { PortableDeviceBaseController } from '../abstract/device-base.controller';
 import { CellphoneBrand } from '../../portable-device-brand/entities/portable-device-brand.entity';
 import { CellphoneModel } from '../../portable-device-model/entities/portable-device-model.entity';
 import { Cellphone } from '../entities/portable-device.entity';

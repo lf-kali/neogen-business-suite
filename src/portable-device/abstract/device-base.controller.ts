@@ -1,10 +1,10 @@
 import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
-import { PortableDeviceBrand } from "../portable-device-brand/entities/portable-device-brand.entity";
-import { PortableDeviceModel } from "../portable-device-model/entities/portable-device-model.entity";
+import { PortableDeviceBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
+import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
 import { PortableDeviceBaseService } from "./device-base.service";
-import { PortableDevice } from "./entities/portable-device.entity";
-import { CreatePortableDeviceDTO } from "./dto/create-portable-device.dto";
-import { UpdatePortableDeviceDTO } from "./dto/update-portable-device.dto";
+import { PortableDevice } from "../entities/portable-device.entity";
+import { CreatePortableDeviceDTO } from "../dto/create-portable-device.dto";
+import { UpdatePortableDeviceDTO } from "../dto/update-portable-device.dto";
 
 export abstract class PortableDeviceBaseController<
     TDevice extends PortableDevice,

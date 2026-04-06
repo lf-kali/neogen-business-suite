@@ -1,5 +1,5 @@
 import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from "@nestjs/common";
-import { BrandBaseController } from "../brand-base.controller";
+import { BrandBaseController } from "../abstract/brand-base.controller";
 import { LaptopBrand } from "../entities/portable-device-brand.entity";
 import { LaptopBrandService } from "./laptop-brand.service";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";

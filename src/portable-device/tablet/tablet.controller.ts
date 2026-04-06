@@ -1,7 +1,7 @@
 import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { PortableDeviceBaseController } from "../device-base.controller";
+import { PortableDeviceBaseController } from "../abstract/device-base.controller";
 import { Tablet } from "../entities/portable-device.entity";
 import { TabletBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
 import { TabletModel } from "../../portable-device-model/entities/portable-device-model.entity";

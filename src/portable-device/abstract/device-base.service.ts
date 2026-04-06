@@ -1,13 +1,13 @@
 import { DeepPartial, FindOptionsWhere, Repository } from "typeorm";
-import { PortableDeviceBrand } from "../portable-device-brand/entities/portable-device-brand.entity";
-import { PortableDeviceModel } from "../portable-device-model/entities/portable-device-model.entity";
-import { PortableDevice } from "./entities/portable-device.entity";
-import { BrandBaseService } from "../portable-device-brand/brand-base.service";
-import { ModelBaseService } from "../portable-device-model/model-base.service";
-import { ServiceOrderService } from "../service-order/service-order.service";
-import { CreatePortableDeviceDTO } from "./dto/create-portable-device.dto";
+import { PortableDeviceBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
+import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
+import { PortableDevice } from "../entities/portable-device.entity";
+import { BrandBaseService } from "../../portable-device-brand/brand-base.service";
+import { ModelBaseService } from "../../portable-device-model/model-base.service";
+import { ServiceOrderService } from "../../service-order/service-order.service";
+import { CreatePortableDeviceDTO } from "../dto/create-portable-device.dto";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { UpdatePortableDeviceDTO } from "./dto/update-portable-device.dto";
+import { UpdatePortableDeviceDTO } from "../dto/update-portable-device.dto";
 import { DeleteResult } from "typeorm/browser";
 
 @Injectable()
@@ -39,7 +39,7 @@ export abstract class PortableDeviceBaseService <
         const device = await this.deviceRepo.findOne({
             where: {
                 id
-            } as FindOptionsWhere<TDevice>,
+            } as unknown as FindOptionsWhere<TDevice>,
         });
         if(!device) {
             throw new HttpException(

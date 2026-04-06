@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { PortableDeviceBrand } from "./entities/portable-device-brand.entity";
+import { PortableDeviceBrand } from "../entities/portable-device-brand.entity";
 import { DeepPartial, FindOptionsWhere, Like, Repository } from "typeorm";
-import { CreateDeviceBrandDTO } from "./dto/create-device-brand.dto";
-import { UpdateDeviceBrandDTO } from "./dto/update-device-brand.dto";
+import { CreateDeviceBrandDTO } from "../dto/create-device-brand.dto";
+import { UpdateDeviceBrandDTO } from "../dto/update-device-brand.dto";
 import { DeleteResult } from "typeorm/browser";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { BrandBaseService } from "../brand-base.service";
+import { BrandBaseService } from "../abstract/brand-base.service";
 import { LaptopBrand } from "../entities/portable-device-brand.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
