@@ -2,7 +2,7 @@ import { DeepPartial, FindOptionsWhere, Repository } from "typeorm";
 import { PortableDeviceBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
 import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
 import { PortableDevice } from "../entities/portable-device.entity";
-import { BrandBaseService } from "../../portable-device-brand/brand-base.service";
+import { BrandBaseService } from "../../portable-device-brand/abstract/brand-base.service";
 import { ModelBaseService } from "../../portable-device-model/model-base.service";
 import { ServiceOrderService } from "../../service-order/service-order.service";
 import { CreatePortableDeviceDTO } from "../dto/create-portable-device.dto";

@@ -3,7 +3,7 @@ import { PortableDeviceModel } from "./entities/portable-device-model.entity";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreatePortableDeviceModelDTO } from "./dto/create-portable-device-model.dto";
 import { PortableDeviceBrand } from "../portable-device-brand/entities/portable-device-brand.entity";
-import { BrandBaseService } from "../portable-device-brand/brand-base.service";
+import { BrandBaseService } from "../portable-device-brand/abstract/brand-base.service";
 import { UpdatePortableDeviceModelDTO } from "./dto/update-device-model.dto";
 import { DeleteResult } from "typeorm/browser";
 
