@@ -33,8 +33,5 @@ export class PortableDeviceModel {
 export class CellphoneModel extends PortableDeviceModel {}
 
 @ChildEntity()
-export class TabletModel extends PortableDeviceModel {}
-
-@ChildEntity()
 export class LaptopModel extends PortableDeviceModel {}
 

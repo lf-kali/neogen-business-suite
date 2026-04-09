@@ -18,9 +18,6 @@ import { CellphoneModelModule } from '../portable-device-model/cellphone-model/c
 import { LaptopBrandModule } from '../portable-device-brand/laptop-brand/laptop-brand.module';
 import { LaptopModule } from '../portable-device/laptop/laptop.module';
 import { LaptopModelModule } from '../portable-device-model/laptop-model/laptop-model.module';
-import { TabletBrandModule } from '../portable-device-brand/tablet-brand/tablet-brand.module';
-import { TabletModelModule } from '../portable-device-model/tablet-model/tablet-model.module';
-import { TabletModule } from '../portable-device/tablet/tablet.module';
 import { PortableDeviceModule } from '../portable-device/portable-device.module';
 
 @Module({
@@ -41,9 +38,6 @@ import { PortableDeviceModule } from '../portable-device/portable-device.module'
     LaptopModule,
     LaptopBrandModule,
     LaptopModelModule,
-    TabletModule,
-    TabletBrandModule,
-    TabletModelModule,
     ProductModule,
     ProductCategoryModule,
     ServiceTypeModule,

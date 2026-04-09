@@ -54,7 +54,4 @@ export class PortableDevice {
 export class Cellphone extends PortableDevice {}
 
 @ChildEntity()
-export class Tablet extends PortableDevice {}
-
-@ChildEntity()
 export class Laptop extends PortableDevice {}

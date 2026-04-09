@@ -33,7 +33,4 @@ export class PortableDeviceBrand {
 export class CellphoneBrand extends PortableDeviceBrand {}
 
 @ChildEntity()
-export class TabletBrand extends PortableDeviceBrand {}
-
-@ChildEntity()
 export class LaptopBrand extends PortableDeviceBrand {}
