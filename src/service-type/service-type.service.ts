@@ -15,7 +15,7 @@ export class ServiceTypeService {
 
     async findAll(): Promise<ServiceType[]> {
         return await this.serviceTypeRepository.find({
-            relations: ['serviceOrders'],
+            relations: ['serviceOrders', 'serviceOrders.costumer'],
         });
     }
 
@@ -23,7 +23,8 @@ export class ServiceTypeService {
         const serviceType = await this.serviceTypeRepository.findOne({
             where: {
                 id: id,
-            }
+            },
+            relations: ['serviceOrders', 'serviceOrders.costumer']
         });
         
         if (!serviceType) {

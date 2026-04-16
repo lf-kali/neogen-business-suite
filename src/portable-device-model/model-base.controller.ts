@@ -14,10 +14,26 @@ export abstract class ModelBaseController<TModel extends PortableDeviceModel, TB
         }
     
         @Get('/id/:id')
-        findOne(@Param('id', ParseIntPipe) id: number): Promise<TModel> {
+        findByID(@Param('id', ParseIntPipe) id: number): Promise<TModel> {
             return this.service.findById(id);
         }
+
+        @Get('/name/:name')
+        findByName(
+            @Param('name')
+            name: string,
+        ) {
+            return this.service.findByName(name);
+        }
     
+        @Get('exists/:name')
+        doesModelExist(
+            @Param('name')
+            name: string,
+        ){
+            return this.service.doesModelExist(name);
+        }
+
         @Post('/new')
         create(@Body() dto: CreatePortableDeviceModelDTO ): Promise<TModel> {
             return this.service.create(dto);

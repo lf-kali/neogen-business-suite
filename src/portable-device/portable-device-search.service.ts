@@ -12,7 +12,7 @@ export class PortableDeviceSearchService {
 
     async findAll(): Promise<PortableDevice[]> {
         return await this.repo.find({
-            relations: ['brand', 'model', 'serviceOrder'],
+            relations: ['brand', 'model', 'serviceOrder', 'serviceOrder.costumer'],
         });
     }
 
@@ -21,7 +21,7 @@ export class PortableDeviceSearchService {
             where: {
                 id,
             },
-            relations: ['brand', 'model', 'serviceOrder'],
+            relations: ['brand', 'model', 'serviceOrder', 'serviceOrder.costumer'],
         });
         
         if(!device) {

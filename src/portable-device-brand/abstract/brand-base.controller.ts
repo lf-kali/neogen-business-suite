@@ -13,8 +13,13 @@ export abstract class BrandBaseController<T extends PortableDeviceBrand> {
     }
 
     @Get('/id/:id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<T> {
+    findByID(@Param('id', ParseIntPipe) id: number): Promise<T> {
         return this.service.findByID(id);
+    }
+
+    @Get('/name/:name')
+    findByName(@Param('name') name: string): Promise<T[]> {
+        return this.service.findByName(name);
     }
 
     @Post('/new')

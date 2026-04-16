@@ -20,7 +20,7 @@ export class ProductService {
 
     async findByID(id: number): Promise<Product> {
         const product = await this.productRepository.findOne({
-            relations: ['category'],
+            relations: ['category', 'serviceOrders', 'serviceOrders.costumer'],
             where: {
                 id: id,
             },
@@ -52,6 +52,10 @@ export class ProductService {
             const category = await this.productCategoryService.findById(dto.categoryId);
             product.category = category;
         }
+
+        const {categoryId, ...rest} = dto;
+
+        Object.assign(product, rest);
 
         return await this.productRepository.save(product);
     }

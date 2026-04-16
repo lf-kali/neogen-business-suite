@@ -14,7 +14,9 @@ export class CostumerService {
   ) {}
 
   async findAll(): Promise<Costumer[]> {
-    return await this.costumerRepository.find();
+    return await this.costumerRepository.find({
+      relations: ['serviceOrders']
+    });
   }
   
   async findByID(id: number): Promise<Costumer> {
@@ -22,6 +24,7 @@ export class CostumerService {
       where: {
         id: id,
       },
+      relations: ['serviceOrders', 'serviceOrders.costumer'],
     });
     if (!costumerSearch) {
       throw new HttpException(

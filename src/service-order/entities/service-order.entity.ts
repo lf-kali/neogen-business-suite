@@ -43,7 +43,7 @@ export class ServiceOrder {
   @ApiProperty()
   @Expose()
   @Column({ name: 'tech_notes', length: 1000, default: '' })
-  techNotes: string;
+  techNotes?: string;
 
   @ApiProperty()
   @Expose()

@@ -28,12 +28,7 @@ export class ServiceOrderService {
 
   async findAll(): Promise<ServiceOrder[]> {
     return await this.serviceOrderRepository.find({
-      relations: {
-        technician: true,
-        costumer: true,
-        devices: true,
-        products: true,
-      },
+      relations: ['technician', 'costumer', 'costumer.serviceOrders', 'devices', 'devices.brand', 'devices.serviceOrder.costumer','devices.model', 'products', 'services',],
     });
   }
 
@@ -45,12 +40,7 @@ export class ServiceOrderService {
           new Date(`${date}T23:59:59.999Z`),
         ),
       },
-      relations: {
-        technician: true,
-        costumer: true,
-        devices: true,
-        products: true,
-      },
+      relations: ['technician', 'costumer', 'costumer.serviceOrders', 'devices', 'devices.brand', 'devices.model', 'devices.serviceOrder.costumer','products', 'services',],
     });
     return dateSearch;
   }
@@ -60,13 +50,7 @@ export class ServiceOrderService {
       where: {
         id,
       },
-      relations: {
-        technician: true,
-        costumer: true,
-        devices: true,
-        products: true,
-        services: true,
-      },
+      relations: ['technician', 'costumer', 'costumer.serviceOrders','devices', 'devices.brand', 'devices.model', 'devices.serviceOrder.costumer','products', 'services',],
     });
     if (!serviceOrder) {
       throw new HttpException(
