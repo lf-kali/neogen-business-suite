@@ -57,22 +57,24 @@ export abstract class ModelBaseService <
         return brandSearch;
     }
 
-    async doesModelExist(name: string): Promise<Boolean> {
-        const brandSearch = await this.modelRepo.find({
+    async doesModelExist(name: string, brandId: number): Promise<Boolean> {
+        const modelSearch = await this.modelRepo.find({
             where: {
                 name: Like(name),
             } as FindOptionsWhere<TModel>,
             relations: ['devices', 'brand',],
         });
 
-        return brandSearch.length > 0;
+        if(modelSearch.length > 0 && modelSearch[0].brand.id === brandId) return true
+
+        return false;
     }
 
     async create(dto: CreatePortableDeviceModelDTO): Promise<TModel> {
-        const exists = await this.doesModelExist(dto.name)
+        const exists = await this.doesModelExist(dto.name, dto.brandId);
 
         if(exists){
-            throw new HttpException(`Dispositivo de nome ${dto.name} já existe!`, HttpStatus.NOT_ACCEPTABLE);
+            throw new HttpException(`Dispositivo de nome ${dto.name} já existe na marca de id ${dto.brandId}!`, HttpStatus.NOT_ACCEPTABLE);
         }
 
         const model = this.modelRepo.create(dto as unknown as DeepPartial<TModel>);

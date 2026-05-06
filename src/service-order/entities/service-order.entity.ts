@@ -75,7 +75,8 @@ export class ServiceOrder {
 
   @ApiProperty()
   @Expose()
-  @OneToMany(() => PortableDevice, (device) => device.serviceOrder)
+  @ManyToMany(() => PortableDevice, (device) => device.serviceOrders, {onDelete: 'CASCADE'})
+  @JoinTable()
   devices: PortableDevice[];
 
   @Expose()

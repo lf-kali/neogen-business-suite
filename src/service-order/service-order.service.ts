@@ -1,4 +1,4 @@
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceOrder } from './entities/service-order.entity';
 import { Between, Repository } from 'typeorm';
@@ -12,6 +12,7 @@ import { Product } from '../product/entities/product.entity';
 import { ServiceType } from '../service-type/entities/service-type.entity';
 import { ServiceTypeService } from '../service-type/service-type.service';
 import { PortableDevice } from '../portable-device/entities/portable-device.entity';
+import { PaginationDTO } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class ServiceOrderService {
@@ -26,9 +27,25 @@ export class ServiceOrderService {
     private serviceTypeService: ServiceTypeService,
   ) {}
 
-  async findAll(): Promise<ServiceOrder[]> {
+  async findAll(pageQuery?: PaginationDTO): Promise<ServiceOrder[]> {
+    const {page = 1, limit = 10} = pageQuery as PaginationDTO;
+
+    const skip = (page - 1) * limit;
+
     return await this.serviceOrderRepository.find({
-      relations: ['technician', 'costumer', 'costumer.serviceOrders', 'devices', 'devices.brand', 'devices.serviceOrder.costumer','devices.model', 'products', 'services',],
+      skip,
+      take: limit,
+      relations: [
+        'technician', 
+        'costumer', 
+        'costumer.serviceOrders', 
+        'devices', 
+        'devices.brand', 
+        'devices.serviceOrders.costumer',
+        'devices.model', 
+        'products', 
+        'services',
+      ],
     });
   }
 
@@ -40,7 +57,17 @@ export class ServiceOrderService {
           new Date(`${date}T23:59:59.999Z`),
         ),
       },
-      relations: ['technician', 'costumer', 'costumer.serviceOrders', 'devices', 'devices.brand', 'devices.model', 'devices.serviceOrder.costumer','products', 'services',],
+      relations: [
+        'technician', 
+        'costumer', 
+        'costumer.serviceOrders', 
+        'devices', 
+        'devices.brand', 
+        'devices.serviceOrders.costumer',
+        'devices.model', 
+        'products', 
+        'services',
+      ],
     });
     return dateSearch;
   }
@@ -50,7 +77,17 @@ export class ServiceOrderService {
       where: {
         id,
       },
-      relations: ['technician', 'costumer', 'costumer.serviceOrders','devices', 'devices.brand', 'devices.model', 'devices.serviceOrder.costumer','products', 'services',],
+      relations: [
+        'technician', 
+        'costumer', 
+        'costumer.serviceOrders', 
+        'devices', 
+        'devices.brand', 
+        'devices.serviceOrders.costumer',
+        'devices.model', 
+        'products', 
+        'services',
+      ],
     });
     if (!serviceOrder) {
       throw new HttpException(

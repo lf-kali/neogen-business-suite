@@ -45,7 +45,26 @@ export abstract class BrandBaseService<T extends PortableDeviceBrand> {
         return brandSearch;
     }
 
-    async create(dto: CreateDeviceBrandDTO): Promise<T> {
+    async doesBrandExist(name: string): Promise<boolean> {
+        const brandSearch = await this.repo.find({
+            where: {
+                name: Like(name),
+            } as FindOptionsWhere<T>,
+        });
+
+        return brandSearch.length > 0;
+    }
+
+    async create(dto: CreateDeviceBrandDTO, returnBrandOnExisting: boolean): Promise<T> {
+        const exists = await this.doesBrandExist(dto.name);
+        if (exists) {
+            if (returnBrandOnExisting) {
+                const brandList = await this.findByName(dto.name);
+                return brandList[0];
+            }
+            throw new HttpException(`Marca de nome ${dto.name} já existe!`, HttpStatus.NOT_ACCEPTABLE);
+        }
+
         const brand = this.repo.create(dto as DeepPartial<T>);
 
         return await this.repo.save(brand);

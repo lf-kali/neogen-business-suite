@@ -1,8 +1,9 @@
-import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
+import { Body, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
 import { BrandBaseService } from "./brand-base.service";
 import { PortableDeviceBrand } from "../entities/portable-device-brand.entity";
 import { UpdateDeviceBrandDTO } from "../dto/update-device-brand.dto";
 import { CreateDeviceBrandDTO } from "../dto/create-device-brand.dto";
+import { ApiQuery } from "@nestjs/swagger";
 
 export abstract class BrandBaseController<T extends PortableDeviceBrand> {
     constructor(protected service: BrandBaseService<T>){}
@@ -23,8 +24,12 @@ export abstract class BrandBaseController<T extends PortableDeviceBrand> {
     }
 
     @Post('/new')
-    create(@Body() dto: CreateDeviceBrandDTO ): Promise<T> {
-        return this.service.create(dto);
+    @ApiQuery({name: 'returnBrandOnExisting', required: false, type: Boolean})
+    create(
+        @Query('returnBrandOnExisting', new DefaultValuePipe(false), ParseBoolPipe) returnBrandOnExisting: boolean,
+        @Body() dto: CreateDeviceBrandDTO
+    ): Promise<T> {
+        return this.service.create(dto, returnBrandOnExisting);
     }
 
     @Patch('/update/:id')

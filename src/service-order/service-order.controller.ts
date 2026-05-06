@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -19,7 +20,8 @@ import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { UpdateServiceOrderDto } from './dto/upate-service-order.dto';
 import { CreateServiceOrderDTO } from './dto/create-service-order.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { PaginationDTO } from '../common/dto/pagination.dto';
 
 
 @UseGuards(JwtAuthGuard)
@@ -32,8 +34,13 @@ export class ServiceOrderController {
 
   @Get('/all')
   @HttpCode(HttpStatus.OK)
-  findAll(): Promise<ServiceOrder[]> {
-    return this.serviceOrderService.findAll();
+  @ApiQuery({name: 'page', required: false, type: Number })
+  @ApiQuery({name: 'limit', required: false, type: Number })
+  findAll(
+    @Query()
+    pageQuery: PaginationDTO
+  ): Promise<ServiceOrder[]> {
+    return this.serviceOrderService.findAll(pageQuery);
   }
 
   @Get('/date/:date')

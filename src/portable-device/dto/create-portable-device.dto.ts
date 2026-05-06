@@ -27,9 +27,4 @@ export class CreatePortableDeviceDTO {
   @ApiProperty()
   @IsNotEmpty()
   handedAccessories: HandedAccessories;
-  
-  @ApiProperty()
-  @IsNumber()
-  @IsOptional()
-  serviceOrderId?: number;
 }

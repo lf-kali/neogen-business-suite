@@ -1,4 +1,4 @@
-import { ChildEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { ChildEntity, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 import { PortableDeviceBrand } from "../../portable-device-brand/entities/portable-device-brand.entity";
 import { PortableDeviceModel } from "../../portable-device-model/entities/portable-device-model.entity";
 import { InitialDiagnosis } from "./initial-diagnosis";
@@ -48,8 +48,8 @@ export class PortableDevice {
 
     @ApiProperty()
     @Expose()
-    @ManyToOne(() => ServiceOrder, (serviceOrder) => serviceOrder.devices, {onDelete: 'CASCADE', nullable: true})
-    serviceOrder: ServiceOrder;
+    @ManyToMany(() => ServiceOrder, (serviceOrder) => serviceOrder.devices, { nullable: true })
+    serviceOrders: ServiceOrder[];
 
     @Column({name: 'type', insert: false, update: false, default: 'Cellphone'})
     type: string;

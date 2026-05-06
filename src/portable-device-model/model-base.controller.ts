@@ -1,9 +1,10 @@
-import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
+import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
 import { PortableDeviceBrand } from "../portable-device-brand/entities/portable-device-brand.entity";
 import { PortableDeviceModel } from "./entities/portable-device-model.entity";
 import { ModelBaseService } from "./model-base.service";
 import { CreatePortableDeviceModelDTO } from "./dto/create-portable-device-model.dto";
 import { UpdatePortableDeviceModelDTO } from "./dto/update-device-model.dto";
+import { ApiQuery } from "@nestjs/swagger";
 
 export abstract class ModelBaseController<TModel extends PortableDeviceModel, TBrand extends PortableDeviceBrand> {
     constructor(protected service: ModelBaseService<TModel, TBrand>){}
@@ -27,11 +28,13 @@ export abstract class ModelBaseController<TModel extends PortableDeviceModel, TB
         }
     
         @Get('exists/:name')
+        @ApiQuery({name: 'brandId', required: true, type: Number})
         doesModelExist(
             @Param('name')
             name: string,
+            @Query('brandId', ParseIntPipe) brandId: number,
         ){
-            return this.service.doesModelExist(name);
+            return this.service.doesModelExist(name, brandId);
         }
 
         @Post('/new')

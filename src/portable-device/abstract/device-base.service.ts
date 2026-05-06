@@ -31,7 +31,7 @@ export abstract class PortableDeviceBaseService <
 
     async findAll(): Promise<TDevice[]> {
         return this.deviceRepo.find({
-            relations: ['brand', 'model', 'serviceOrder'],
+            relations: ['brand', 'model', 'serviceOrders'],
         });
     }
 
@@ -57,10 +57,6 @@ export abstract class PortableDeviceBaseService <
 
         const device = this.buildEntity(dto, brand, model);
 
-        if (dto.serviceOrderId) {
-            device.serviceOrder = await this.serviceOrderService.findByID(dto.serviceOrderId);
-        }
-
         return this.deviceRepo.save(device);
     }
 
@@ -74,11 +70,8 @@ export abstract class PortableDeviceBaseService <
         if (dto.modelId) {
             device.model = await this.modelService.findById(dto.modelId);
         }
-        if (dto.serviceOrderId) {
-            device.serviceOrder = await this.serviceOrderService.findByID(dto.serviceOrderId);
-        }
 
-        const {brandId, modelId, serviceOrderId, ...rest} = dto;
+        const {brandId, modelId, ...rest} = dto;
 
         Object.assign(device, rest);
 
